@@ -1,3 +1,5 @@
+using XMessenger.Web.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services
@@ -23,6 +25,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseGlobalErrorHandler();
 
 app.UseApiVersioning();
 
