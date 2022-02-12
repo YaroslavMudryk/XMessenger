@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using XMessenger.Web.Responses;
 namespace XMessenger.Web.Middlewares
 {
     public class GlobalErrorHandlerMiddleware
@@ -27,12 +28,7 @@ namespace XMessenger.Web.Middlewares
             var requestId = httpContext.TraceIdentifier;
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await httpContext.Response.WriteAsJsonAsync(new
-            {
-                Ok = false,
-                Error = "Internal server error",
-                Data = requestId
-            });
+            await httpContext.Response.WriteAsJsonAsync(new ApiResponse("Internal server error", requestId));
         }
     }
 
