@@ -36,7 +36,7 @@ namespace XMessenger.Web.Controllers.V1
             return Ok();
         }
 
-        [HttpPost("logout")]
+        [HttpDelete("logout")]
         public IActionResult Logout()
         {
             return Ok();
