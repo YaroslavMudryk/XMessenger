@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Web", "XMessenger.Web\XMessenger.Web.csproj", "{AC812B86-40CA-4F71-A0B0-D104591FD38B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Web", "XMessenger.Web\XMessenger.Web.csproj", "{AC812B86-40CA-4F71-A0B0-D104591FD38B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Domain", "XMessenger.Domain\XMessenger.Domain.csproj", "{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Application", "XMessenger.Application\XMessenger.Application.csproj", "{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Infrastructure.Data", "XMessenger.Infrastructure.Data\XMessenger.Infrastructure.Data.csproj", "{EDA733D4-BDC6-4700-8EAB-626B678C0510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.nfrastructure.IoC", "XMessenger.nfrastructure.IoC\XMessenger.nfrastructure.IoC.csproj", "{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{AC812B86-40CA-4F71-A0B0-D104591FD38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC812B86-40CA-4F71-A0B0-D104591FD38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC812B86-40CA-4F71-A0B0-D104591FD38B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
