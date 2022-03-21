@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EntityFramework\Extensions\" />
     <Folder Include="EntityFramework\Interceptors\" />
   </ItemGroup>
 

@@ -65,13 +65,13 @@ namespace XMessenger.Web.Controllers.V1
         }
 
         [HttpGet("sessions/{sessionId}")]
-        public IActionResult GetSessionById(long sessionId)
+        public IActionResult GetSessionById(Guid sessionId)
         {
             return Ok();
         }
 
         [HttpDelete("sessions/{sessionId}")]
-        public IActionResult CloseSessionById(long sessionId)
+        public IActionResult CloseSessionById(Guid sessionId)
         {
             return Ok();
         }
