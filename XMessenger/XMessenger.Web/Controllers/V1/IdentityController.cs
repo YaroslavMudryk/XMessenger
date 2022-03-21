@@ -6,7 +6,7 @@ namespace XMessenger.Web.Controllers.V1
     {
         #region Identity
 
-        [HttpPost("registration")]
+        [HttpPost("signup")]
         public IActionResult Registration()
         {
             return Ok();
@@ -24,7 +24,7 @@ namespace XMessenger.Web.Controllers.V1
             return Ok();
         }
 
-        [HttpPost("login")]
+        [HttpPost("signin")]
         public IActionResult Login()
         {
             return Ok();
@@ -36,7 +36,7 @@ namespace XMessenger.Web.Controllers.V1
             return Ok();
         }
 
-        [HttpDelete("logout")]
+        [HttpDelete("signout")]
         public IActionResult Logout()
         {
             return Ok();
