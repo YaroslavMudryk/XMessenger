@@ -16,5 +16,6 @@
         public DateTime? BlockedUntil { get; set; }
         public int AccessFailedCount { get; set; }
         public bool IsConfirmed { get; set; }
+        public List<Session> Sessions { get; set; }
     }
 }
