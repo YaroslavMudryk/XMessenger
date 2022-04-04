@@ -7,6 +7,10 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
     public class IdentityContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleClaim> RoleClaims { get; set; }
+        public DbSet<Claim> Claims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
