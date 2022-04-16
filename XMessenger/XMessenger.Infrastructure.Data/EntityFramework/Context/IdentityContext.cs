@@ -8,6 +8,7 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<App> Apps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
