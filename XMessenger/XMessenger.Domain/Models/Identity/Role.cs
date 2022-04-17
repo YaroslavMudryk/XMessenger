@@ -7,7 +7,6 @@ namespace XMessenger.Domain.Models.Identity
         public string Name { get; set; }
         [Required, StringLength(150, MinimumLength = 1)]
         public string NameNormalized { get; set; }
-
         public List<UserRole> UserRoles { get; set; }
         public List<RoleClaim> RoleClaims { get; set; }
 

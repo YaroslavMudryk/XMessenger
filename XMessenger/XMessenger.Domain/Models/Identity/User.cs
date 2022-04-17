@@ -17,5 +17,7 @@
         public int AccessFailedCount { get; set; }
         public bool IsConfirmed { get; set; }
         public List<Session> Sessions { get; set; }
+        public List<Password> Passwords { get; set; }
+        public List<UserRole> UserRoles { get; set; }
     }
 }
