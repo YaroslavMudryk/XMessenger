@@ -11,6 +11,6 @@ namespace XMessenger.Domain.Models.Identity
         [StringLength(500, MinimumLength = 1)]
         public string DisplayText { get; set; }
         public List<RoleClaim> RoleClaims { get; set; }
-        //public List<AppClaim> AppClaims{ get; set; } //reference for the future AppClaims
+        public List<AppClaim> AppClaims{ get; set; }
     }
 }

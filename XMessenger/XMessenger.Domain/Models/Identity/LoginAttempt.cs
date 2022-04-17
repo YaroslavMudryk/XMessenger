@@ -1,5 +1,4 @@
-﻿
-using Extensions.DeviceDetector.Models;
+﻿using Extensions.DeviceDetector.Models;
 
 namespace XMessenger.Domain.Models.Identity;
 

@@ -20,6 +20,7 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new SessionConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleClaimConfiguration());
         }
     }
 }
