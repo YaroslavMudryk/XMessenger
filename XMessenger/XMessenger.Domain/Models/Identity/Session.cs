@@ -19,5 +19,6 @@ namespace XMessenger.Domain.Models.Identity
         public string RefreshToken { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
+        public List<Token> Tokens { get; set; }
     }
 }
