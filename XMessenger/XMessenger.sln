@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Application", "X
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.Data", "XMessenger.Infrastructure.Data\XMessenger.Infrastructure.Data.csproj", "{EDA733D4-BDC6-4700-8EAB-626B678C0510}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.IoC", "XMessenger.nfrastructure.IoC\XMessenger.Infrastructure.IoC.csproj", "{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.IoC", "XMessenger.Infrastructure.IoC\XMessenger.Infrastructure.IoC.csproj", "{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
