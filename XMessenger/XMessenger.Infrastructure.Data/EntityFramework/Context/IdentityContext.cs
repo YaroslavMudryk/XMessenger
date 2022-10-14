@@ -17,6 +17,7 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
         public DbSet<AppClaim> AppClaims { get; set; }
         public DbSet<Password> Passwords { get; set; }
         public DbSet<Qr> Qrs { get; set; }
+        public DbSet<Confirm> Confirms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());

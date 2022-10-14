@@ -20,5 +20,6 @@
         public List<Password> Passwords { get; set; }
         public List<UserRole> UserRoles { get; set; }
         public List<Qr> Qrs { get; set; }
+        public List<Confirm> Confirms { get; set; }
     }
 }
