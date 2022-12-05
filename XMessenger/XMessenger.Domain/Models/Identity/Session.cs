@@ -13,6 +13,8 @@ namespace XMessenger.Domain.Models.Identity
         public ClientInfo Client { get; set; }
         [Required]
         public bool IsActive { get; set; }
+        public string Type { get; set; }
+        public bool ViaMFA { get; set; }
         public DateTime? DeactivatedAt { get; set; }
         public Guid? DeactivatedBySessionId { get; set; }
         [Required, StringLength(50, MinimumLength = 40)]

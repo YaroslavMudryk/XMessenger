@@ -1,3 +1,4 @@
+using XMessenger.Infrastructure.IoC;
 using XMessenger.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddApiVersioning(options =>
 });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddXMessengerServices(builder.Configuration);
 builder.Services.AddSwaggerGen();
 
 #endregion

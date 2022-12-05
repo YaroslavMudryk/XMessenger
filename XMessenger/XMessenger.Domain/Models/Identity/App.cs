@@ -14,5 +14,11 @@ namespace XMessenger.Domain.Models.Identity
         public DateTime ActiveFrom { get; set; }
         public DateTime ActiveTo { get; set; }
         public List<AppClaim> AppClaims { get; set; }
+
+        public bool IsActiveByTime()
+        {
+            var now = DateTime.Now;
+            return now >= ActiveFrom && now <= ActiveTo;
+        }
     }
 }

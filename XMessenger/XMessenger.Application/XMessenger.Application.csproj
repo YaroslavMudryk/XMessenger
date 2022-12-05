@@ -5,4 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Extensions.Password" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XMessenger.Infrastructure.Data\XMessenger.Infrastructure.Data.csproj" />
+  </ItemGroup>
+
 </Project>
