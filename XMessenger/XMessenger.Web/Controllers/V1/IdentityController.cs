@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using XMessenger.Application.Dtos.Identity;
 using XMessenger.Application.Services;
 
 namespace XMessenger.Web.Controllers.V1
 {
     [ApiVersion("1.0")]
+    [Authorize]
     public class IdentityController : ApiBaseController
     {
         private readonly IAuthService _authService;
@@ -16,33 +18,38 @@ namespace XMessenger.Web.Controllers.V1
         #region Identity
 
         [HttpPost("signup")]
+        [AllowAnonymous]
         public async Task<IActionResult> Registration([FromBody] RegisterDto registerDto)
         {
             return JsonResult(await _authService.RegisterAsync(registerDto));
         }
 
         [HttpPost("confirm")]
-        public IActionResult Confirm()
+        [AllowAnonymous]
+        public async Task<IActionResult> Confirm(string code, int userId)
         {
-            return Ok();
+            return JsonResult(await _authService.ConfirmAsync(code, userId));
         }
 
         [HttpPost("send-confirm")]
-        public IActionResult SendConfirm()
+        [AllowAnonymous]
+        public async Task<IActionResult> SendConfirm(int userId)
         {
-            return Ok();
+            return JsonResult(await _authService.SendConfirmAsync(userId));
         }
 
         [HttpPost("signin")]
-        public IActionResult Login()
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            return Ok();
+            return JsonResult(await _authService.LoginByPasswordAsync(loginDto));
         }
 
         [HttpPost("signin-2mfa")]
-        public IActionResult Login2MFA()
+        [AllowAnonymous]
+        public async Task<IActionResult> Login2MFA([FromBody] LoginMFADto loginMFADto)
         {
-            return Ok();
+            return JsonResult(await _authService.LoginByMFAAsync(loginMFADto));
         }
 
         [HttpDelete("signout")]
@@ -52,6 +59,7 @@ namespace XMessenger.Web.Controllers.V1
         }
 
         [HttpPost("restore-password")]
+        [AllowAnonymous]
         public IActionResult RestorePassword()
         {
             return Ok();

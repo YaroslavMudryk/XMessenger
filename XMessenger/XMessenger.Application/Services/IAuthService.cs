@@ -2,6 +2,7 @@
 using Extensions.Password;
 using Google.Authenticator;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using XMessenger.Application.Dtos;
 using XMessenger.Application.Dtos.Identity;
 using XMessenger.Domain.Models.Identity;
@@ -15,7 +16,8 @@ namespace XMessenger.Application.Services
     public interface IAuthService
     {
         Task<Result<bool>> RegisterAsync(RegisterDto registerDto);
-
+        Task<Result<bool>> ConfirmAsync(string code, int userId);
+        Task<Result<bool>> SendConfirmAsync(int userId);
         Task<Result<JwtTokenDto>> LoginByPasswordAsync(LoginDto loginDto);
         Task<Result<JwtTokenDto>> LoginByMFAAsync(LoginMFADto mfaDto);
 
@@ -37,6 +39,34 @@ namespace XMessenger.Application.Services
             _identityService = identityService;
             _locationService = locationService;
             _tokenService = tokenService;
+        }
+
+        public async Task<Result<bool>> ConfirmAsync(string code, int userId)
+        {
+            var confirmRequest = await _db.Confirms.AsNoTracking().Include(s => s.User).FirstOrDefaultAsync(s => s.Code == code && s.UserId == userId);
+            if (confirmRequest == null)
+                return Result<bool>.NotFound("Code not found");
+
+            if(confirmRequest.IsActivated)
+                return Result<bool>.Error("Code already activated");
+
+            var now = DateTime.Now;
+
+            if (!confirmRequest.IsActualyRequest(now))
+                return Result<bool>.Error("Code was expired. Please request new");
+
+            confirmRequest.IsActivated = true;
+            confirmRequest.ActivetedAt = now;
+
+            var user = confirmRequest.User;
+
+            user.IsConfirmed = true;
+
+            _db.Confirms.Update(confirmRequest);
+            _db.Users.Update(user);
+            await _db.SaveChangesAsync();
+
+            return Result<bool>.Success();
         }
 
         public async Task<Result<bool>> DisableMFAAsync(string code)
@@ -385,7 +415,9 @@ namespace XMessenger.Application.Services
             {
                 ActiveFrom = now,
                 ActiveTo = now.AddDays(1),
-                Code = Generator.GetConfirmCode()
+                Code = Generator.GetConfirmCode(),
+                IsActivated = false,
+                ActivetedAt = null
             };
 
             var passwordHash = registerDto.Password.GeneratePasswordHash();
@@ -433,6 +465,32 @@ namespace XMessenger.Application.Services
             await _db.Users.AddAsync(newUser);
             await _db.SaveChangesAsync();
 
+
+            //ToDo: send confirmation on email
+
+            return Result<bool>.Success();
+        }
+
+        public async Task<Result<bool>> SendConfirmAsync(int userId)
+        {
+            var isUserExist = await _db.Users.AsNoTracking().AnyAsync(s => s.Id == userId);
+            if (!isUserExist)
+                return Result<bool>.Error("User not found");
+
+            var now = DateTime.Now;
+
+            var newConfirm = new Confirm
+            {
+                ActiveFrom = now,
+                ActiveTo = now.AddDays(1),
+                Code = Generator.GetConfirmCode(),
+                IsActivated = false,
+                ActivetedAt = null,
+                UserId = userId
+            };
+
+            await _db.Confirms.AddAsync(newConfirm);
+            await _db.SaveChangesAsync();
 
             //ToDo: send confirmation on email
 
