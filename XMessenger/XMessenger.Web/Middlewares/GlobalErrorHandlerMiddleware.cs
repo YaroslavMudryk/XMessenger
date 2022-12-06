@@ -28,7 +28,7 @@ namespace XMessenger.Web.Middlewares
             var requestId = httpContext.TraceIdentifier;
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await httpContext.Response.WriteAsJsonAsync(new ApiResponse("Internal server error", requestId));
+            await httpContext.Response.WriteAsJsonAsync(new APIResponse(false,"Internal server error", requestId, null, null));
         }
     }
 

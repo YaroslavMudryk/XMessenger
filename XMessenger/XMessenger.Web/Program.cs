@@ -15,6 +15,7 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new TrimStringConverter());
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddXMessengerServices(builder.Configuration);
@@ -38,6 +39,9 @@ app.UseApiVersioning();
 
 app.UseHttpsRedirection();
 
+app.UseSessionHandler();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
