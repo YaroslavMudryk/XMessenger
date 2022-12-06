@@ -2,9 +2,9 @@
 using Extensions.Password;
 using Google.Authenticator;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using XMessenger.Application.Dtos;
 using XMessenger.Application.Dtos.Identity;
+using XMessenger.Application.Sessions;
 using XMessenger.Domain.Models.Identity;
 using XMessenger.Helpers;
 using XMessenger.Helpers.Identity;
@@ -32,13 +32,15 @@ namespace XMessenger.Application.Services
         private readonly IIdentityService _identityService;
         private readonly ILocationService _locationService;
         private readonly ITokenService _tokenService;
-        public AuthService(IdentityContext db, IDetector detector, IIdentityService identityService, ILocationService locationService, ITokenService tokenService)
+        private readonly ISessionManager _sessionManager;
+        public AuthService(IdentityContext db, IDetector detector, IIdentityService identityService, ILocationService locationService, ITokenService tokenService, ISessionManager sessionManager)
         {
             _db = db;
             _detector = detector;
             _identityService = identityService;
             _locationService = locationService;
             _tokenService = tokenService;
+            _sessionManager = sessionManager;
         }
 
         public async Task<Result<bool>> ConfirmAsync(string code, int userId)
@@ -238,7 +240,13 @@ namespace XMessenger.Application.Services
 
             await _db.SaveChangesAsync();
 
-            //ToDo: Add session to storage
+            _sessionManager.AddSession(new SessionModel
+            {
+                Id = session.Id,
+                RefreshToken = session.RefreshToken,
+                UserId = session.UserId,
+                Tokens = new List<TokenModel> { new TokenModel { ExpiredAt = jwtToken.ExpiredAt, Token = jwtToken.JwtToken } }
+            });
 
             return Result<JwtTokenDto>.SuccessWithData(new JwtTokenDto
             {
@@ -390,7 +398,13 @@ namespace XMessenger.Application.Services
             await _db.Sessions.AddAsync(session);
             await _db.SaveChangesAsync();
 
-            //ToDo: Add session to storage
+            _sessionManager.AddSession(new SessionModel
+            {
+                Id = session.Id,
+                RefreshToken = session.RefreshToken,
+                UserId = user.Id,
+                Tokens = new List<TokenModel> { new TokenModel { ExpiredAt = jwtToken.ExpiredAt, Token = jwtToken.JwtToken } }
+            });
 
             return Result<JwtTokenDto>.SuccessWithData(new JwtTokenDto
             {

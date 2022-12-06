@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XMessenger.Application.Services;
+using XMessenger.Application.Sessions;
 using XMessenger.Helpers.Services;
 using XMessenger.Infrastructure.Data.EntityFramework.Context;
 
@@ -24,6 +25,8 @@ namespace XMessenger.Infrastructure.IoC
             #endregion
 
             #region Services
+
+            services.AddSingleton<ISessionManager, SessionManager>();
 
             services.AddScoped<IIdentityService, HttpIdentityService>();
             services.AddScoped<IAuthService, AuthService>();
