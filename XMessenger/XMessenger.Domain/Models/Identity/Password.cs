@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace XMessenger.Domain.Models.Identity
+﻿namespace XMessenger.Domain.Models.Identity
 {
     public class Password : BaseModel<int>
     {
@@ -16,7 +10,7 @@ namespace XMessenger.Domain.Models.Identity
 
         public bool IsActive { get; set; }
 
-        public DateTime DeactivatedAt { get; set; }
+        public DateTime? DeactivatedAt { get; set; }
 
         public int UserId { get; set; }
 

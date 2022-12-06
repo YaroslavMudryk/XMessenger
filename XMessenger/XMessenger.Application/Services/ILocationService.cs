@@ -7,16 +7,16 @@ namespace XMessenger.Application.Services
 {
     public interface ILocationService
     {
-        Task<Location> GetLocationAsync(string ip);
+        Task<LocationInfo> GetLocationAsync(string ip);
     }
 
     public class LocationService : ILocationService
     {
-        public async Task<Location> GetLocationAsync(string ip)
+        public async Task<LocationInfo> GetLocationAsync(string ip)
         {
             if (ip == "127.0.1" || ip == "127.0.0.1")
                 ip = "localhost";
-            var location = new Location
+            var location = new LocationInfo
             {
                 IP = ip
             };

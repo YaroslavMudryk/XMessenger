@@ -1,15 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XMessenger.Application.Dtos.Identity;
+using XMessenger.Application.Services;
+
 namespace XMessenger.Web.Controllers.V1
 {
     [ApiVersion("1.0")]
     public class IdentityController : ApiBaseController
     {
+        private readonly IAuthService _authService;
+        public IdentityController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+
         #region Identity
 
         [HttpPost("signup")]
-        public IActionResult Registration()
+        public async Task<IActionResult> Registration([FromBody] RegisterDto registerDto)
         {
-            return Ok();
+            return JsonResult(await _authService.RegisterAsync(registerDto));
         }
 
         [HttpPost("confirm")]
@@ -30,7 +39,7 @@ namespace XMessenger.Web.Controllers.V1
             return Ok();
         }
 
-        [HttpPost("login-2mfa")]
+        [HttpPost("signin-2mfa")]
         public IActionResult Login2MFA()
         {
             return Ok();

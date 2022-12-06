@@ -1,8 +1,6 @@
-﻿using Extensions.DeviceDetector.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using XMessenger.Domain.Models.Identity;
-using XMessenger.Infrastructure.Data.EntityFramework.Extensions;
 namespace XMessenger.Infrastructure.Data.EntityFramework.Configurations
 {
     public class SessionConfiguration : IEntityTypeConfiguration<Session>
@@ -11,17 +9,24 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.App).HasConversion(
-                v => v.ToJson(),
-                v => v.FromJson<App>());
+            builder.OwnsOne(field => field.App, builder =>
+            {
+                builder.ToJson();
+            });
 
-            builder.Property(v => v.Location).HasConversion(
-                v => v.ToJson(),
-                v => v.FromJson<Location>());
+            builder.OwnsOne(field => field.Location, builder =>
+            {
+                builder.ToJson();
+            });
 
-            builder.Property(v => v.Client).HasConversion(
-                v => v.ToJson(),
-                v => v.FromJson<ClientInfo>());
+            builder.OwnsOne(field => field.Client, builder =>
+            {
+                builder.ToJson();
+
+                builder.OwnsOne(obj => obj.Device);
+                builder.OwnsOne(obj => obj.Browser);
+                builder.OwnsOne(obj => obj.OS);
+            });
         }
     }
 }

@@ -28,6 +28,7 @@ namespace XMessenger.Domain.Models.Identity
         public List<Qr> Qrs { get; set; }
         public List<Confirm> Confirms { get; set; }
         public List<UserLogin> UserLogins { get; set; }
+        public List<LoginAttempt> LoginAttempts { get; set; }
         public List<MFA> MFAs { get; set; }
 
 

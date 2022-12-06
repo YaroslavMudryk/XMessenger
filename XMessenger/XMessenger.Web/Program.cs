@@ -1,3 +1,4 @@
+using XMessenger.Helpers;
 using XMessenger.Infrastructure.IoC;
 using XMessenger.Web.Middlewares;
 
@@ -11,7 +12,10 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1,0);
     options.ReportApiVersions = true;
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new TrimStringConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddXMessengerServices(builder.Configuration);
 builder.Services.AddSwaggerGen();

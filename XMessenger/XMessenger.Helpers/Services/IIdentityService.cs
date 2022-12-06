@@ -5,6 +5,7 @@
         int GetUserId();
         string GetIP();
         bool IsAdmin();
+        Guid GetCurrentSessionId();
         IEnumerable<string> GetRoles();
     }
 
@@ -20,7 +21,6 @@
         {
             if (!IsAuth())
                 return 0;
-
             var claim = _httpContext.User.Claims.FirstOrDefault(s => s.Type == ConstantsClaimTypes.UserId);
             return Convert.ToInt32(claim.Value);
         }
@@ -48,6 +48,14 @@
         private bool IsAuth()
         {
             return _httpContext.User.Identity.IsAuthenticated;
+        }
+
+        public Guid GetCurrentSessionId()
+        {
+            if (!IsAuth())
+                return Guid.Empty;
+            var claim = _httpContext.User.Claims.FirstOrDefault(s => s.Type == ConstantsClaimTypes.SessionId);
+            return Guid.Parse(claim.Value);
         }
     }
 }

@@ -8,6 +8,7 @@
         public string Secret { get; set; }
         public string EntryCode { get; set; }
         public string QrCodeBase64 { get; set; }
+        public string[] RestoreCodes { get; set; }
         public DateTime? Diactived { get; set; }
         public Guid? DiactivedBySessionId { get; set; }
 
