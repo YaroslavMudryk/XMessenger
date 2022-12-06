@@ -42,6 +42,7 @@ namespace XMessenger.Web.Controllers.V1
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
+            var d = this.ModelState;
             return JsonResult(await _authService.LoginByPasswordAsync(loginDto));
         }
 

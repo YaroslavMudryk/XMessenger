@@ -445,14 +445,6 @@ namespace XMessenger.Application.Services
 
             var role = await _db.Roles.AsNoTracking().FirstOrDefaultAsync(s => s.NameNormalized == DefaultsRoles.User.ToUpper());
 
-            var newUserRole = new UserRole
-            {
-                Role = role,
-                IsActive = true,
-                ActiveFrom = now,
-                ActiveTo = now.AddYears(10),
-            };
-
             var newUser = new User
             {
                 FirstName = registerDto.FirstName,
@@ -470,13 +462,22 @@ namespace XMessenger.Application.Services
                 MFASecretKey = null,
                 Name = $"{registerDto.FirstName} {registerDto.LastName}",
                 Confirms = new List<Confirm> { newConfirm },
-                Passwords = new List<Password> { newPassword },
-                UserRoles = new List<UserRole> { newUserRole }
+                Passwords = new List<Password> { newPassword }
+            };
+
+            var newUserRole = new UserRole
+            {
+                User = newUser,
+                RoleId = role.Id,
+                IsActive = true,
+                ActiveFrom = now,
+                ActiveTo = now.AddYears(10),
             };
 
             //ToDo: add user notification settings as json field
 
             await _db.Users.AddAsync(newUser);
+            await _db.UserRoles.AddAsync(newUserRole);
             await _db.SaveChangesAsync();
 
 

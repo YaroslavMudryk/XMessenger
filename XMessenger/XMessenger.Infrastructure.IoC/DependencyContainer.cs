@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using XMessenger.Application.Seeder;
 using XMessenger.Application.Services;
 using XMessenger.Application.Sessions;
 using XMessenger.Helpers.Services;
@@ -17,7 +18,8 @@ namespace XMessenger.Infrastructure.IoC
 
             services.AddDbContext<IdentityContext>(options =>
             {
-                options.UseSqlServer(configuration["DbConnectionStrings:IdentityDb:SqlServer"]);
+                var conn = configuration["DbConnectionStrings:IdentityDb:SqlServer"];
+                options.UseSqlServer(conn);
                 //options.UseNpgsql(configuration["DbConnectionStrings:IdentityDb:PostgreSQL"]);
                 //options.UseSqlite(configuration["DbConnectionStrings:IdentityDb:Sqlite"]);
             });
@@ -32,6 +34,7 @@ namespace XMessenger.Infrastructure.IoC
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ISeederService, BaseSeederService>();
 
             #endregion
 

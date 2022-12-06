@@ -27,6 +27,7 @@ namespace XMessenger.Web.Middlewares
                     return;
                 }
             }
+            await _next(httpContext);
         }
     }
 

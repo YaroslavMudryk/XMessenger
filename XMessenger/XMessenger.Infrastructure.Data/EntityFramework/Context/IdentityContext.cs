@@ -10,8 +10,9 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
     {
         private readonly IIdentityService _identityService;
 
-        public IdentityContext(IIdentityService identityService)
+        public IdentityContext(DbContextOptions<IdentityContext> options, IIdentityService identityService) : base(options)
         {
+            Database.EnsureCreated();
             _identityService = identityService;
         }
 
@@ -36,6 +37,7 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
             modelBuilder.ApplyConfiguration(new SessionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleClaimConfiguration());
             modelBuilder.ApplyConfiguration(new MFAConfiguration());
+            modelBuilder.ApplyConfiguration(new LoginAttemptConfiguration());
         }
 
         public override int SaveChanges()

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using XMessenger.Domain.Models.Identity;
+using XMessenger.Helpers.Extensions;
+
 namespace XMessenger.Infrastructure.Data.EntityFramework.Configurations
 {
     public class MFAConfiguration : IEntityTypeConfiguration<MFA>
@@ -9,10 +11,9 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.OwnsOne(field => field.RestoreCodes, builder =>
-            {
-                builder.ToJson();
-            });
+            builder.Property(x => x.RestoreCodes).HasConversion(
+                s => s.ToJson(),
+                s => s.FromJson<string[]>());
         }
     }
 }

@@ -18,5 +18,15 @@
         {
             return Guid.NewGuid().ToString("N");
         }
+
+        public static string GetAppId()
+        {
+            return Guid.NewGuid().ToString("N").Substring(10).ToUpper();
+        }
+
+        public static string GetAppSecret()
+        {
+            return $"{Guid.NewGuid().ToString("N")}{Guid.NewGuid().ToString("N")}";
+        }
     }
 }
