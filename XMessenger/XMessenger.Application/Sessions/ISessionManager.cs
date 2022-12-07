@@ -6,10 +6,12 @@ namespace XMessenger.Application.Sessions
 {
     public interface ISessionManager
     {
+        List<SessionModel> Sessions { get; }
         void AddSession(SessionModel sessionModel);
         void AddToken(Guid sessionId, TokenModel tokenModel);
         bool IsActiveSession(string token);
         void RemoveSession(Guid sessionId);
+        void RemoveSessions(Guid[] sessionIds);
         void RemoveToken(string token);
         void RemoveRangeTokens(IEnumerable<string> tokens);
     }
@@ -17,6 +19,8 @@ namespace XMessenger.Application.Sessions
     public class SessionManager : ISessionManager
     {
         private List<SessionModel> _sessions;
+
+        public List<SessionModel> Sessions => _sessions;
 
         public SessionManager(IServiceScopeFactory serviceScopeFactory)
         {
@@ -48,10 +52,13 @@ namespace XMessenger.Application.Sessions
             session.Tokens.Add(tokenModel);
         }
 
-        public bool IsActiveSession(string token)
+        public bool IsActiveSession(string accessToken)
         {
-            var session = _sessions.Where(s => s.Tokens.FirstOrDefault(s => s.Token == token) != null).FirstOrDefault();
-            return session != null;
+            var now = DateTime.Now;
+
+            var session = _sessions.Where(s => s.Tokens.FirstOrDefault(s => s.Token == accessToken) != null).FirstOrDefault();
+
+            return session != null ? session.Tokens.FirstOrDefault(s => s.Token == accessToken).ExpiredAt > now ? true : false : false;
         }
 
         public void RemoveRangeTokens(IEnumerable<string> tokens)
@@ -68,6 +75,14 @@ namespace XMessenger.Application.Sessions
             if (session == null)
                 return;
             _sessions.Remove(session);
+        }
+
+        public void RemoveSessions(Guid[] sessionIds)
+        {
+            foreach (var sessionId in sessionIds)
+            {
+                RemoveSession(sessionId);
+            }
         }
 
         public void RemoveToken(string token)

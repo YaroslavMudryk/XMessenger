@@ -7,6 +7,7 @@
         bool IsAdmin();
         Guid GetCurrentSessionId();
         IEnumerable<string> GetRoles();
+        string GetBearerToken();
     }
 
     public class HttpIdentityService : IIdentityService
@@ -56,6 +57,17 @@
                 return Guid.Empty;
             var claim = _httpContext.User.Claims.FirstOrDefault(s => s.Type == ConstantsClaimTypes.SessionId);
             return Guid.Parse(claim.Value);
+        }
+
+        public string GetBearerToken()
+        {
+            var bearerWord = "Bearer ";
+            var bearerToken = _httpContext.Request.Headers["Authorization"].ToString();
+            if (bearerToken.StartsWith(bearerWord, StringComparison.OrdinalIgnoreCase))
+            {
+                return bearerToken.Substring(bearerWord.Length).Trim();
+            }
+            return bearerToken;
         }
     }
 }

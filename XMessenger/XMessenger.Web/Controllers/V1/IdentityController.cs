@@ -42,7 +42,6 @@ namespace XMessenger.Web.Controllers.V1
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var d = this.ModelState;
             return JsonResult(await _authService.LoginByPasswordAsync(loginDto));
         }
 
@@ -54,9 +53,9 @@ namespace XMessenger.Web.Controllers.V1
         }
 
         [HttpDelete("signout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return Ok();
+            return JsonResult(await _authService.LogoutAsync());
         }
 
         [HttpPost("restore-password")]
@@ -88,10 +87,10 @@ namespace XMessenger.Web.Controllers.V1
             return Ok();
         }
 
-        [HttpDelete("sessions/{sessionId}")]
-        public IActionResult CloseSessionById(Guid sessionId)
+        [HttpDelete("sessions")]
+        public async Task<IActionResult> CloseSessionById(Guid[] sessionIds)
         {
-            return Ok();
+            return JsonResult(await _authService.LogoutBySessionIdsAsync(sessionIds));
         }
 
         #endregion

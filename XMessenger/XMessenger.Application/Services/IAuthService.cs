@@ -23,6 +23,9 @@ namespace XMessenger.Application.Services
 
         Task<Result<MFADto>> EnableMFAAsync(string code = null);
         Task<Result<bool>> DisableMFAAsync(string code);
+
+        Task<Result<bool>> LogoutAsync();
+        Task<Result<int>> LogoutBySessionIdsAsync(Guid[] ids);
     }
 
     public class AuthService : IAuthService
@@ -49,7 +52,7 @@ namespace XMessenger.Application.Services
             if (confirmRequest == null)
                 return Result<bool>.NotFound("Code not found");
 
-            if(confirmRequest.IsActivated)
+            if (confirmRequest.IsActivated)
                 return Result<bool>.Error("Code already activated");
 
             var now = DateTime.Now;
@@ -412,6 +415,69 @@ namespace XMessenger.Application.Services
                 RefreshToken = session.RefreshToken,
                 Token = jwtToken.JwtToken
             });
+        }
+
+        public async Task<Result<bool>> LogoutAsync()
+        {
+            var token = _identityService.GetBearerToken();
+
+            if (!_sessionManager.IsActiveSession(token))
+                return Result<bool>.Error("Session is already expired");
+
+            var sessionId = _identityService.GetCurrentSessionId();
+
+            var sessionToClose = await _db.Sessions.AsNoTracking().FirstOrDefaultAsync(s => s.Id == sessionId);
+            if (sessionToClose == null)
+                return Result<bool>.NotFound("Session not found");
+
+            var now = DateTime.Now;
+
+            sessionToClose.Status = SessionStatus.Close;
+            sessionToClose.IsActive = false;
+            sessionToClose.DeactivatedAt = now;
+            sessionToClose.DeactivatedBySessionId = sessionId;
+
+            //ToDo: add notify about close session
+
+            _db.Sessions.Update(sessionToClose);
+            await _db.SaveChangesAsync();
+
+            _sessionManager.RemoveSession(sessionId);
+
+            return Result<bool>.SuccessWithData(true);
+        }
+
+        public async Task<Result<int>> LogoutBySessionIdsAsync(Guid[] ids)
+        {
+            var now = DateTime.Now;
+            var userId = _identityService.GetUserId();
+            var sessionId = _identityService.GetCurrentSessionId();
+
+            var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => ids.Contains(s.Id)).ToListAsync();
+
+            foreach (var session in sessionsToClose)
+            {
+                if (session.UserId != userId)
+                    return Result<int>.Error($"Can't close session with ID ({session.Id})");
+
+                if (!session.IsActive || session.Status == SessionStatus.Close)
+                    return Result<int>.Error($"Session with ID ({session.Id}) already closed");
+            }
+
+            sessionsToClose.ForEach(session =>
+            {
+                session.Status = SessionStatus.Close;
+                session.IsActive = false;
+                session.DeactivatedAt = now;
+                session.DeactivatedBySessionId = sessionId;
+            });
+
+            //ToDo: add notify about close sessions
+
+            _db.Sessions.UpdateRange(sessionsToClose);
+            var affectedSessions = await _db.SaveChangesAsync();
+
+            return Result<int>.SuccessWithData(affectedSessions);
         }
 
         public async Task<Result<bool>> RegisterAsync(RegisterDto registerDto)
