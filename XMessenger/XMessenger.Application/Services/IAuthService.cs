@@ -4,7 +4,9 @@ using Google.Authenticator;
 using Microsoft.EntityFrameworkCore;
 using XMessenger.Application.Dtos;
 using XMessenger.Application.Dtos.Identity;
+using XMessenger.Application.Extensions;
 using XMessenger.Application.Sessions;
+using XMessenger.Application.ViewModels.Identity;
 using XMessenger.Domain.Models.Identity;
 using XMessenger.Helpers;
 using XMessenger.Helpers.Identity;
@@ -26,6 +28,8 @@ namespace XMessenger.Application.Services
 
         Task<Result<bool>> LogoutAsync();
         Task<Result<int>> LogoutBySessionIdsAsync(Guid[] ids);
+
+        Task<Result<List<SessionViewModel>>> GetUserSessionsAsync(int q, int page);
     }
 
     public class AuthService : IAuthService
@@ -195,6 +199,25 @@ namespace XMessenger.Application.Services
                     RestoreCodes = mfaToActivate.RestoreCodes,
                 });
             }
+        }
+
+        public async Task<Result<List<SessionViewModel>>> GetUserSessionsAsync(int q, int page)
+        {
+            var userId = _identityService.GetUserId();
+            var currentSessionId = _identityService.GetCurrentSessionId();
+
+            var query = (IQueryable<Session>)_db.Sessions;
+            query = query.Where(x => x.UserId == userId);
+            query = query.Where(x => q == 0 ? x.Status == SessionStatus.Active || x.Status == SessionStatus.New : x.Status == SessionStatus.Close);
+            query = query.Skip(page - 1 * Paginations.PerPage).Take(Paginations.PerPage);
+            query = query.OrderByDescending(x => x.CreatedAt);
+            var sessions = await query.ToListAsync();
+
+            var totalSessions = await _db.Sessions.AsNoTracking().CountAsync(x => x.UserId == userId && q == 0 ? x.Status == SessionStatus.Active || x.Status == SessionStatus.New : x.Status == SessionStatus.Close);
+
+            var sessionsToView = sessions.MapToView(currentSessionId);
+
+            return Result<List<SessionViewModel>>.SuccessList(sessionsToView, Meta.FromMeta(totalSessions, page));
         }
 
         public async Task<Result<JwtTokenDto>> LoginByMFAAsync(LoginMFADto mfaDto)

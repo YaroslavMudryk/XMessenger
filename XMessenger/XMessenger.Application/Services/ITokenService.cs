@@ -16,7 +16,6 @@ namespace XMessenger.Application.Services
             {
                 ExpiredAt = DateTime.Now.AddDays(1),
                 SessionId = userToken.SessionId,
-                IsActive = true,
                 JwtToken = Guid.NewGuid().ToString()
             });
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XMessenger.Application.Dtos.Identity;
+using XMessenger.Helpers;
 
 namespace XMessenger.Application.Dtos
 {
@@ -117,19 +118,22 @@ namespace XMessenger.Application.Dtos
 
     public class Meta
     {
-        public int TotalCount { get; set; }
-        public int Count { get; set; }
-
         public int TotalPages { get; set; }
         public int Page { get; set; }
 
-        public static Meta FromMeta(int totalCount, int offset, int limit)
+        public static Meta FromMeta(int totalCount, int page)
         {
+            var totalPages = 1;
+
+            var res = (double)(totalCount / Paginations.PerPage);
+            if (res % 10 == 0)
+                totalPages = (int)res;
+            else
+                totalPages = (int)Math.Ceiling(res);
+
             var meta = new Meta();
-            meta.TotalCount = totalCount;
-            meta.Count = limit;
-            meta.TotalPages = totalCount == 0 || limit == 0 ? 0 : (int)Math.Ceiling(totalCount / (double)limit);
-            meta.Page = offset == 0 || limit == 0 ? 0 : (int)Math.Ceiling((offset / (double)limit)) + 1;
+            meta.Page = page;
+            meta.TotalPages = totalPages;
             return meta;
         }
     }

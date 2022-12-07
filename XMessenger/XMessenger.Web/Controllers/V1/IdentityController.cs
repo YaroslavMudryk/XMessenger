@@ -76,15 +76,9 @@ namespace XMessenger.Web.Controllers.V1
         #region Sessions
 
         [HttpGet("sessions")]
-        public IActionResult GetUserSessions(int q, int page = 1)
+        public async Task<IActionResult> GetUserSessions(int q = 0, int page = 1)
         {
-            return Ok();
-        }
-
-        [HttpGet("sessions/{sessionId}")]
-        public IActionResult GetSessionById(Guid sessionId)
-        {
-            return Ok();
+            return JsonResult(await _authService.GetUserSessionsAsync(q, page));
         }
 
         [HttpDelete("sessions")]
