@@ -21,6 +21,7 @@ namespace XMessenger.Application.Services
         Task<Result<bool>> ConfirmAsync(string code, int userId);
         Task<Result<bool>> SendConfirmAsync(int userId);
         Task<Result<JwtTokenDto>> LoginByPasswordAsync(LoginDto loginDto);
+        Task<Result<JwtTokenDto>> RefreshTokenAsync(string refreshToken);
         Task<Result<JwtTokenDto>> LoginByMFAAsync(LoginMFADto mfaDto);
 
         Task<Result<MFADto>> EnableMFAAsync(string code = null);
@@ -183,7 +184,6 @@ namespace XMessenger.Application.Services
                     return Result<MFADto>.Error("Code is incorrect");
 
                 user.MFA = true;
-                await _db.SaveChangesAsync();
 
                 mfaToActivate.IsActivated = true;
                 mfaToActivate.Activated = DateTime.Now;
@@ -339,6 +339,9 @@ namespace XMessenger.Application.Services
                 }
             }
 
+            if (loginDto.Client == null)
+                loginDto.Client = _detector.GetClientInfo();
+
             if (!loginDto.Password.VerifyPasswordHash(user.PasswordHash))
             {
                 user.AccessFailedCount++;
@@ -360,9 +363,6 @@ namespace XMessenger.Application.Services
                 await _db.SaveChangesAsync();
                 return Result<JwtTokenDto>.Error("Password is incorrect");
             }
-
-            if (loginDto.Client == null)
-                loginDto.Client = _detector.GetClientInfo();
 
             var appInfo = new AppInfo
             {
@@ -409,6 +409,8 @@ namespace XMessenger.Application.Services
             });
 
             jwtToken.IsSoftDelete = true;
+
+            session.Status = SessionStatus.Active;
 
             session.Tokens = new List<Token>();
             session.Tokens.Add(jwtToken);
@@ -507,6 +509,37 @@ namespace XMessenger.Application.Services
             _sessionManager.RemoveSessions(sessionsToClose.Select(s => s.Id).ToArray());
 
             return Result<int>.SuccessWithData(affectedSessions);
+        }
+
+        public async Task<Result<JwtTokenDto>> RefreshTokenAsync(string refreshToken)
+        {
+            var session = await _db.Sessions.AsNoTracking().Include(s => s.User).FirstOrDefaultAsync(s => s.RefreshToken == refreshToken);
+            if (session == null)
+                return Result<JwtTokenDto>.NotFound("Invalid refresh token");
+
+            var jwtToken = await _tokenService.GetUserTokenAsync(new UserTokenDto
+            {
+                AuthType = AuthType.Password,
+                UserId = session.UserId,
+                User = session.User,
+                Lang = session.Language,
+                SessionId = session.Id,
+                Session = session
+            });
+
+            jwtToken.Session = null;
+
+            await _db.Tokens.AddAsync(jwtToken);
+            await _db.SaveChangesAsync();
+
+            _sessionManager.AddToken(session.Id, new TokenModel { ExpiredAt = jwtToken.ExpiredAt, Token = jwtToken.JwtToken });
+
+            return Result<JwtTokenDto>.SuccessWithData(new JwtTokenDto
+            {
+                ExpiredAt = jwtToken.ExpiredAt,
+                RefreshToken = session.RefreshToken,
+                Token = jwtToken.JwtToken
+            });
         }
 
         public async Task<Result<bool>> RegisterAsync(RegisterDto registerDto)

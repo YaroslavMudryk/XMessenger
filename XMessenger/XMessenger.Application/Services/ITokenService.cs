@@ -66,7 +66,7 @@ namespace XMessenger.Application.Services
 
 
             var now = DateTime.Now;
-            var expiredAt = now.AddHours(TokenOptions.LifeTimeInMinutes);
+            var expiredAt = now.AddMinutes(TokenOptions.LifeTimeInMinutes);
             var jwt = new JwtSecurityToken(
                 issuer: TokenOptions.Issuer,
                 audience: TokenOptions.Audience,

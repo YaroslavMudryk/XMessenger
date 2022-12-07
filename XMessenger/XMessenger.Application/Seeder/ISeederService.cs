@@ -63,7 +63,7 @@ namespace XMessenger.Application.Seeder
 
             yield return new App 
             {
-                Name = "Тестовий заостосунок",
+                Name = "Тестовий застосунок",
                 Description = "Тестовий застосунок для процесу розробки",
                 IsActive = true,
                 ShortName = "Тест. зас.",

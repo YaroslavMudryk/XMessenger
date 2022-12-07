@@ -52,6 +52,25 @@ namespace XMessenger.Web.Controllers.V1
             return JsonResult(await _authService.LoginByMFAAsync(loginMFADto));
         }
 
+        [HttpPost("2mfa")]
+        public async Task<IActionResult> EnableMFA(string code = null)
+        {
+            return JsonResult(await _authService.EnableMFAAsync(code));
+        }
+
+        [HttpDelete("mfa/{code}")]
+        public async Task<IActionResult> DisableMFA(string code)
+        {
+            return JsonResult(await _authService.DisableMFAAsync(code));
+        }
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken(string token)
+        {
+            return JsonResult(await _authService.RefreshTokenAsync(token));
+        }
+
         [HttpDelete("signout")]
         public async Task<IActionResult> Logout()
         {

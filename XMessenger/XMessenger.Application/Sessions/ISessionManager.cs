@@ -58,7 +58,18 @@ namespace XMessenger.Application.Sessions
 
             var session = _sessions.Where(s => s.Tokens.FirstOrDefault(s => s.Token == accessToken) != null).FirstOrDefault();
 
-            return session != null ? session.Tokens.FirstOrDefault(s => s.Token == accessToken).ExpiredAt > now ? true : false : false;
+            if (session == null)
+                return false;
+
+            var token = session.Tokens.FirstOrDefault(s => s.Token == accessToken);
+
+            if (token.ExpiredAt < now)
+            {
+                session.Tokens.Remove(token);
+                return false;
+            }
+
+            return true;
         }
 
         public void RemoveRangeTokens(IEnumerable<string> tokens)
