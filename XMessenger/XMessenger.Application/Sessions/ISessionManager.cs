@@ -11,7 +11,7 @@ namespace XMessenger.Application.Sessions
         void AddToken(Guid sessionId, TokenModel tokenModel);
         bool IsActiveSession(string token);
         void RemoveSession(Guid sessionId);
-        void RemoveSessions(Guid[] sessionIds);
+        void RemoveSessions(IEnumerable<Guid> sessionIds);
         void RemoveToken(string token);
         void RemoveRangeTokens(IEnumerable<string> tokens);
     }
@@ -77,7 +77,7 @@ namespace XMessenger.Application.Sessions
             _sessions.Remove(session);
         }
 
-        public void RemoveSessions(Guid[] sessionIds)
+        public void RemoveSessions(IEnumerable<Guid> sessionIds)
         {
             foreach (var sessionId in sessionIds)
             {
@@ -116,6 +116,7 @@ namespace XMessenger.Application.Sessions
                     UserId = session.UserId,
                     Tokens = activeTokens.Where(s => s.SessionId == session.Id).Select(s => new TokenModel { Token = s.JwtToken, ExpiredAt = s.ExpiredAt }).ToList()
                 };
+                _sessions.Add(newSession);
             }
         }
     }

@@ -209,7 +209,7 @@ namespace XMessenger.Application.Services
             var query = (IQueryable<Session>)_db.Sessions;
             query = query.Where(x => x.UserId == userId);
             query = query.Where(x => q == 0 ? x.Status == SessionStatus.Active || x.Status == SessionStatus.New : x.Status == SessionStatus.Close);
-            query = query.Skip(page - 1 * Paginations.PerPage).Take(Paginations.PerPage);
+            query = query.Skip((page - 1) * Paginations.PerPage).Take(Paginations.PerPage);
             query = query.OrderByDescending(x => x.CreatedAt);
             var sessions = await query.ToListAsync();
 
@@ -242,8 +242,10 @@ namespace XMessenger.Application.Services
             {
                 AuthType = AuthType.Password,
                 UserId = session.UserId,
+                User = session.User,
                 Lang = session.Language,
-                SessionId = session.Id
+                SessionId = session.Id,
+                Session = session
             });
 
             jwtToken.IsSoftDelete = true;
@@ -400,8 +402,10 @@ namespace XMessenger.Application.Services
             {
                 AuthType = AuthType.Password,
                 UserId = user.Id,
+                User = user,
                 Lang = loginDto.Lang,
                 SessionId = session.Id,
+                Session = session
             });
 
             jwtToken.IsSoftDelete = true;
@@ -499,6 +503,8 @@ namespace XMessenger.Application.Services
 
             _db.Sessions.UpdateRange(sessionsToClose);
             var affectedSessions = await _db.SaveChangesAsync();
+
+            _sessionManager.RemoveSessions(sessionsToClose.Select(s => s.Id).ToArray());
 
             return Result<int>.SuccessWithData(affectedSessions);
         }
