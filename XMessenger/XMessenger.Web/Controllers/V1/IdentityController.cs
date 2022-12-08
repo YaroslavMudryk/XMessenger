@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using XMessenger.Application.Dtos.Identity;
 using XMessenger.Application.Services;
 
@@ -58,7 +59,7 @@ namespace XMessenger.Web.Controllers.V1
             return JsonResult(await _authService.EnableMFAAsync(code));
         }
 
-        [HttpDelete("mfa/{code}")]
+        [HttpDelete("2mfa/{code}")]
         public async Task<IActionResult> DisableMFA(string code)
         {
             return JsonResult(await _authService.DisableMFAAsync(code));
@@ -79,15 +80,15 @@ namespace XMessenger.Web.Controllers.V1
 
         [HttpPost("restore-password")]
         [AllowAnonymous]
-        public IActionResult RestorePassword()
+        public async Task<IActionResult> RestorePassword([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] NewPasswordDto passwordDto)
         {
             return Ok();
         }
 
         [HttpPost("change-password")]
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword([FromBody] NewPasswordDto passwordDto)
         {
-            return Ok();
+            return JsonResult(await _authService.ChangePasswordAsync(passwordDto));
         }
 
         #endregion

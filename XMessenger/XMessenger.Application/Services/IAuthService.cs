@@ -17,6 +17,8 @@ namespace XMessenger.Application.Services
 {
     public interface IAuthService
     {
+        Task<Result<bool>> ChangePasswordAsync(NewPasswordDto passwordDto);
+
         Task<Result<bool>> RegisterAsync(RegisterDto registerDto);
         Task<Result<bool>> ConfirmAsync(string code, int userId);
         Task<Result<bool>> SendConfirmAsync(int userId);
@@ -49,6 +51,70 @@ namespace XMessenger.Application.Services
             _locationService = locationService;
             _tokenService = tokenService;
             _sessionManager = sessionManager;
+        }
+
+        public async Task<Result<bool>> ChangePasswordAsync(NewPasswordDto passwordDto)
+        {
+            if (passwordDto.OldPassword == passwordDto.NewPassword)
+                return Result<bool>.Error("Passwords cannot be the same");
+
+            var userId = _identityService.GetUserId();
+
+            var now = DateTime.Now;
+
+            var sessionId = _identityService.GetCurrentSessionId();
+
+            var user = await _db.Users.AsNoTracking().Include(s => s.Passwords).FirstOrDefaultAsync(s => s.Id == userId);
+
+            if (!passwordDto.OldPassword.VerifyPasswordHash(user.PasswordHash))
+                return Result<bool>.Error("Password is incorrect");
+
+            if (user.MFA)
+            {
+                var twoFactor = new TwoFactorAuthenticator();
+
+                var result = twoFactor.ValidateTwoFactorPIN(user.MFASecretKey, passwordDto.CodeMFA);
+
+                if (!result)
+                    return Result<bool>.Error("Code is incorrect");
+            }
+
+            var currentPassword = user.Passwords.FirstOrDefault(s => s.PasswordHash == user.PasswordHash && s.IsActive);
+
+            currentPassword.DeactivatedAt = now;
+            currentPassword.IsActive = false;
+
+            var newPasswordHash = passwordDto.NewPassword.GeneratePasswordHash();
+
+            user.PasswordHash = newPasswordHash;
+
+            var newPassword = new Password
+            {
+                PasswordHash = newPasswordHash,
+                UserId = userId,
+                Answer = passwordDto.Answer,
+                Question = passwordDto.Question,
+                IsActive = true,
+            };
+
+            var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => s.UserId == userId && s.IsActive && s.Status != SessionStatus.Close).ToListAsync();
+
+            sessionsToClose.ForEach(session =>
+            {
+                session.IsActive = false;
+                session.Status = SessionStatus.Close;
+                session.DeactivatedAt = now;
+                session.DeactivatedBySessionId = sessionId;
+            });
+
+            _db.Users.Update(user);
+            _db.Sessions.UpdateRange(sessionsToClose);
+            await _db.Passwords.AddAsync(newPassword);
+            await _db.SaveChangesAsync();
+
+            _sessionManager.RemoveSessions(sessionsToClose.Select(s => s.Id));
+
+            return Result<bool>.SuccessWithData(true);
         }
 
         public async Task<Result<bool>> ConfirmAsync(string code, int userId)
@@ -389,9 +455,11 @@ namespace XMessenger.Application.Services
                 Language = loginDto.Lang
             };
 
+            user.AccessFailedCount = 0;
 
             if (user.MFA)
             {
+                _db.Users.Update(user);
                 await _db.Sessions.AddAsync(session);
                 await _db.SaveChangesAsync();
 
@@ -427,6 +495,7 @@ namespace XMessenger.Application.Services
                 IsSoftDelete = true
             });
 
+            _db.Users.Update(user);
             await _db.Sessions.AddAsync(session);
             await _db.SaveChangesAsync();
 
@@ -566,6 +635,7 @@ namespace XMessenger.Application.Services
 
             var newPassword = new Password
             {
+                Question = registerDto.Question,
                 Answer = registerDto.KeyForPassword,
                 PasswordHash = passwordHash,
                 IsActive = true
