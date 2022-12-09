@@ -1,4 +1,4 @@
-﻿using XMessenger.Application.Dtos;
+﻿using XMessenger.Helpers;
 
 namespace XMessenger.Web.Responses
 {

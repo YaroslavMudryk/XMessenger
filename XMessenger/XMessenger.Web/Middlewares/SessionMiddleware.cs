@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using XMessenger.Application.Sessions;
+using XMessenger.Identity.Sessions;
 using XMessenger.Web.Extensions;
 using XMessenger.Web.Responses;
 

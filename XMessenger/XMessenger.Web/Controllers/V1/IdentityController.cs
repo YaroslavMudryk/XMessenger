@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using XMessenger.Application.Dtos.Identity;
-using XMessenger.Application.Services;
+using XMessenger.Identity.Dtos;
+using XMessenger.Identity.Services;
 
 namespace XMessenger.Web.Controllers.V1
 {
@@ -11,9 +10,11 @@ namespace XMessenger.Web.Controllers.V1
     public class IdentityController : ApiBaseController
     {
         private readonly IAuthService _authService;
-        public IdentityController(IAuthService authService)
+        private readonly ISessionService _sessionService;
+        public IdentityController(IAuthService authService, ISessionService sessionService)
         {
             _authService = authService;
+            _sessionService = sessionService;
         }
 
         #region Identity
@@ -98,13 +99,13 @@ namespace XMessenger.Web.Controllers.V1
         [HttpGet("sessions")]
         public async Task<IActionResult> GetUserSessions(int q = 0, int page = 1)
         {
-            return JsonResult(await _authService.GetUserSessionsAsync(q, page));
+            return JsonResult(await _sessionService.GetUserSessionsAsync(q, page));
         }
 
         [HttpDelete("sessions")]
         public async Task<IActionResult> CloseSessionById(Guid[] sessionIds)
         {
-            return JsonResult(await _authService.LogoutBySessionIdsAsync(sessionIds));
+            return JsonResult(await _sessionService.CloseSessionsByIdsAsync(sessionIds));
         }
 
         #endregion

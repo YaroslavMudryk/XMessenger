@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.IoC", "XMessenger.Infrastructure.IoC\XMessenger.Infrastructure.IoC.csproj", "{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Helpers", "XMessenger.Helpers\XMessenger.Helpers.csproj", "{8E57620E-F731-48AD-A143-0F8C10C56F30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Helpers", "XMessenger.Helpers\XMessenger.Helpers.csproj", "{8E57620E-F731-48AD-A143-0F8C10C56F30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Identity", "XMessenger.Identity\XMessenger.Identity.csproj", "{822C9339-A1A5-4BAD-9403-EE1A05E39D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8E57620E-F731-48AD-A143-0F8C10C56F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E57620E-F731-48AD-A143-0F8C10C56F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E57620E-F731-48AD-A143-0F8C10C56F30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822C9339-A1A5-4BAD-9403-EE1A05E39D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822C9339-A1A5-4BAD-9403-EE1A05E39D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822C9339-A1A5-4BAD-9403-EE1A05E39D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822C9339-A1A5-4BAD-9403-EE1A05E39D24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using XMessenger.Application.Seeder;
+﻿using Microsoft.AspNetCore.Mvc;
+using XMessenger.Identity.Seeder;
 
 namespace XMessenger.Web.Controllers.V1
 {

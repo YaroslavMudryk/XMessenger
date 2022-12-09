@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using XMessenger.Application.Dtos;
-using XMessenger.Application.Dtos.Identity;
+using XMessenger.Helpers;
+using XMessenger.Identity.Dtos;
 using XMessenger.Web.Responses;
 
 namespace XMessenger.Web.Controllers

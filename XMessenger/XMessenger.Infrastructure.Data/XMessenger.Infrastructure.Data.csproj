@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="EntityFramework\Configurations\" />
+    <Folder Include="EntityFramework\Context\" />
     <Folder Include="EntityFramework\Interceptors\" />
   </ItemGroup>
 
