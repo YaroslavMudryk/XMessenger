@@ -9,4 +9,8 @@
     <PackageReference Include="Extensions.DeviceDetector" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\XMessenger.Helpers\XMessenger.Helpers.csproj" />
+  </ItemGroup>
+
 </Project>

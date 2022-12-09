@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Domain.Models;
 using XMessenger.Domain.Models.Identity;
-using XMessenger.Helpers.Extensions;
+using XMessenger.Helpers.Db.Extensions;
 using XMessenger.Helpers.Services;
 using XMessenger.Infrastructure.Data.EntityFramework.Configurations;
 namespace XMessenger.Infrastructure.Data.EntityFramework.Context
@@ -42,67 +41,16 @@ namespace XMessenger.Infrastructure.Data.EntityFramework.Context
 
         public override int SaveChanges()
         {
-            var dateNow = DateTime.Now;
-
-            ApplyUpsertInfo(dateNow);
-            ApplyDeleteInfo(dateNow);
+            this.ApplyAuditInfo(_identityService);
 
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var dateNow = DateTime.Now;
-
-            ApplyUpsertInfo(dateNow);
-            ApplyDeleteInfo(dateNow);
+            this.ApplyAuditInfo(_identityService);
 
             return base.SaveChangesAsync(cancellationToken);
-        }
-
-        private void ApplyUpsertInfo(DateTime dateTimeNow)
-        {
-            this.ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is BaseModel && (e.State == EntityState.Added || e.State == EntityState.Modified))
-                .ForEach(entry =>
-                {
-                    var entity = (BaseModel)entry.Entity;
-
-                    if (entry.State == EntityState.Added)
-                    {
-                        entity.CreatedAt = dateTimeNow;
-                        entity.CreatedBy = _identityService.GetUserId();
-                        entity.CreatedFromIP = _identityService.GetIP();
-                    }
-
-                    if (entry.State == EntityState.Modified)
-                    {
-                        entity.LastUpdatedAt = dateTimeNow;
-                        entity.LastUpdatedBy = _identityService.GetUserId();
-                        entity.LastUpdatedFromIP = _identityService.GetIP();
-                    }
-
-                    entity.Version++;
-                });
-        }
-
-        private void ApplyDeleteInfo(DateTime dateTimeNow)
-        {
-            this.ChangeTracker
-                .Entries()
-                .Where(s => s.Entity is BaseModel && s.State == EntityState.Deleted)
-                .ForEach(entry =>
-                {
-                    var entity = (BaseModel)entry.Entity;
-                    if (entity.IsSoftDelete)
-                    {
-                        entity.IsDeleted = true;
-                        entity.DeletedAt = dateTimeNow;
-                        entity.DeletedBy = _identityService.GetUserId();
-                        entry.State = EntityState.Modified;
-                    }
-                });
         }
     }
 }

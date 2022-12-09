@@ -315,8 +315,6 @@ namespace XMessenger.Application.Services
                 Session = session
             });
 
-            jwtToken.IsSoftDelete = true;
-
             session.Tokens = new List<Token> { jwtToken };
 
             await _db.LoginAttempts.AddAsync(new LoginAttempt
@@ -325,8 +323,7 @@ namespace XMessenger.Application.Services
                 Device = session.Client,
                 Location = session.Location,
                 IsSuccess = true,
-                UserId = session.UserId,
-                IsSoftDelete = true
+                UserId = session.UserId
             });
 
             session.Status = SessionStatus.Active;
@@ -375,8 +372,7 @@ namespace XMessenger.Application.Services
                     Password = loginDto.Password,
                     Device = loginDto.Client,
                     Location = location,
-                    IsSuccess = false,
-                    IsSoftDelete = true
+                    IsSuccess = false
                 });
                 return Result<JwtTokenDto>.NotFound("Check your credentials");
             }
@@ -422,8 +418,7 @@ namespace XMessenger.Application.Services
                     Device = loginDto.Client,
                     Location = location,
                     IsSuccess = false,
-                    UserId = user.Id,
-                    IsSoftDelete = true
+                    UserId = user.Id
                 });
                 _db.Users.Update(user);
 
@@ -451,7 +446,6 @@ namespace XMessenger.Application.Services
                 RefreshToken = Guid.NewGuid().ToString("N"),
                 Type = AuthScheme.Password,
                 ViaMFA = user.MFA,
-                IsSoftDelete = true,
                 Status = SessionStatus.New,
                 Language = loginDto.Lang
             };
@@ -477,8 +471,6 @@ namespace XMessenger.Application.Services
                 Session = session
             });
 
-            jwtToken.IsSoftDelete = true;
-
             session.Status = SessionStatus.Active;
 
             session.Tokens = new List<Token>();
@@ -492,8 +484,7 @@ namespace XMessenger.Application.Services
                 Device = loginDto.Client,
                 Location = location,
                 IsSuccess = true,
-                UserId = user.Id,
-                IsSoftDelete = true
+                UserId = user.Id
             });
 
             _db.Users.Update(user);
@@ -654,7 +645,6 @@ namespace XMessenger.Application.Services
                 PasswordHash = passwordHash,
                 Email = registerDto.Login,
                 IsConfirmed = false,
-                IsSoftDelete = false,
                 AccessFailedCount = 0,
                 LockoutEnabled = true,
                 LockoutEnd = null,

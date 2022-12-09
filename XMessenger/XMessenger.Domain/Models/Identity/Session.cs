@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XMessenger.Domain.Models.Identity
 {
-    public class Session : BaseModel<Guid>
+    public class Session : BaseSoftDeletableModel<Guid>
     {
         [Required]
         public AppInfo App { get; set; }

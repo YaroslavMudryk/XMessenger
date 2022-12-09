@@ -2,7 +2,7 @@
 
 namespace XMessenger.Domain.Models.Identity
 {
-    public class App: BaseModel<int>
+    public class App : BaseSoftDeletableModel<int>
     {
         public string Name { get; set; }
         public string ShortName { get; set; }

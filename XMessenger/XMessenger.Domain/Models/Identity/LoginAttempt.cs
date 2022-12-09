@@ -2,7 +2,7 @@
 
 namespace XMessenger.Domain.Models.Identity;
 
-public class LoginAttempt: BaseModel<int>
+public class LoginAttempt : BaseSoftDeletableModel<int>
 {
     public string Login { get; set; }
     public string Password { get; set; }
