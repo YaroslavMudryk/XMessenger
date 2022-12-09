@@ -3,6 +3,7 @@
 public class Confirm : BaseModel<Guid>
 {
     public string Code { get; set; }
+    public ConfirmType Type { get; set; }
     public DateTime ActiveFrom { get; set; }
     public DateTime ActiveTo { get; set; }
     public bool IsActivated { get; set; }
@@ -14,4 +15,10 @@ public class Confirm : BaseModel<Guid>
     {
         return dateTime >= ActiveFrom && dateTime <= ActiveTo;
     }
+}
+
+public enum ConfirmType
+{
+    Account,
+    RestorePassword
 }

@@ -29,7 +29,7 @@ namespace XMessenger.Web.Controllers.V1
         [AllowAnonymous]
         public async Task<IActionResult> Confirm(string code, int userId)
         {
-            return JsonResult(await _authService.ConfirmAsync(code, userId));
+            return JsonResult(await _authService.ConfirmAccountAsync(code, userId));
         }
 
         [HttpPost("send-confirm")]
@@ -80,9 +80,9 @@ namespace XMessenger.Web.Controllers.V1
 
         [HttpPost("restore-password")]
         [AllowAnonymous]
-        public async Task<IActionResult> RestorePassword([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] NewPasswordDto passwordDto)
+        public async Task<IActionResult> RestorePassword(RestorePasswordDto restorePasswordDto)
         {
-            return Ok();
+            return JsonResult(await _authService.RestorePasswordAsync(restorePasswordDto));
         }
 
         [HttpPost("change-password")]

@@ -9,6 +9,7 @@ using XMessenger.Application.Sessions;
 using XMessenger.Application.ViewModels.Identity;
 using XMessenger.Domain.Models.Identity;
 using XMessenger.Helpers;
+using XMessenger.Helpers.Extensions;
 using XMessenger.Helpers.Identity;
 using XMessenger.Helpers.Services;
 using XMessenger.Infrastructure.Data.EntityFramework.Context;
@@ -18,21 +19,18 @@ namespace XMessenger.Application.Services
     public interface IAuthService
     {
         Task<Result<bool>> ChangePasswordAsync(NewPasswordDto passwordDto);
-
-        Task<Result<bool>> RegisterAsync(RegisterDto registerDto);
-        Task<Result<bool>> ConfirmAsync(string code, int userId);
-        Task<Result<bool>> SendConfirmAsync(int userId);
-        Task<Result<JwtTokenDto>> LoginByPasswordAsync(LoginDto loginDto);
-        Task<Result<JwtTokenDto>> RefreshTokenAsync(string refreshToken);
-        Task<Result<JwtTokenDto>> LoginByMFAAsync(LoginMFADto mfaDto);
-
-        Task<Result<MFADto>> EnableMFAAsync(string code = null);
+        Task<Result<bool>> ConfirmAccountAsync(string code, int userId);
         Task<Result<bool>> DisableMFAAsync(string code);
-
+        Task<Result<MFADto>> EnableMFAAsync(string code = null);
+        Task<Result<List<SessionViewModel>>> GetUserSessionsAsync(int q, int page);
+        Task<Result<JwtTokenDto>> LoginByMFAAsync(LoginMFADto mfaDto);
+        Task<Result<JwtTokenDto>> LoginByPasswordAsync(LoginDto loginDto);
         Task<Result<bool>> LogoutAsync();
         Task<Result<int>> LogoutBySessionIdsAsync(Guid[] ids);
-
-        Task<Result<List<SessionViewModel>>> GetUserSessionsAsync(int q, int page);
+        Task<Result<JwtTokenDto>> RefreshTokenAsync(string refreshToken);
+        Task<Result<bool>> RegisterAsync(RegisterDto registerDto);
+        Task<Result<bool>> RestorePasswordAsync(RestorePasswordDto restorePasswordDto);
+        Task<Result<bool>> SendConfirmAsync(int userId);
     }
 
     public class AuthService : IAuthService
@@ -97,7 +95,7 @@ namespace XMessenger.Application.Services
                 IsActive = true,
             };
 
-            var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => s.UserId == userId && s.IsActive && s.Status != SessionStatus.Close).ToListAsync();
+            var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => s.UserId == userId && s.IsActive).ToListAsync();
 
             sessionsToClose.ForEach(session =>
             {
@@ -117,9 +115,12 @@ namespace XMessenger.Application.Services
             return Result<bool>.SuccessWithData(true);
         }
 
-        public async Task<Result<bool>> ConfirmAsync(string code, int userId)
+        public async Task<Result<bool>> ConfirmAccountAsync(string code, int userId)
         {
-            var confirmRequest = await _db.Confirms.AsNoTracking().Include(s => s.User).FirstOrDefaultAsync(s => s.Code == code && s.UserId == userId);
+            var confirmRequest = await _db.Confirms.AsNoTracking()
+                .Include(s => s.User)
+                .FirstOrDefaultAsync(s => s.Code == code && s.UserId == userId && s.Type == ConfirmType.Account);
+
             if (confirmRequest == null)
                 return Result<bool>.NotFound("Code not found");
 
@@ -627,6 +628,7 @@ namespace XMessenger.Application.Services
                 ActiveFrom = now,
                 ActiveTo = now.AddDays(1),
                 Code = Generator.GetConfirmCode(),
+                Type = ConfirmType.Account,
                 IsActivated = false,
                 ActivetedAt = null
             };
@@ -682,6 +684,92 @@ namespace XMessenger.Application.Services
             //ToDo: send confirmation on email
 
             return Result<bool>.Success();
+        }
+
+        public async Task<Result<bool>> RestorePasswordAsync(RestorePasswordDto restorePasswordDto)
+        {
+            var now = DateTime.Now;
+
+            if (restorePasswordDto.NewPassword.IsNullOrWhiteSpace() && restorePasswordDto.Code.IsNullOrWhiteSpace())
+            {
+                var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(s => s.Login == restorePasswordDto.Login);
+                if (user == null)
+                    return Result<bool>.Error("User not found");
+
+                var newConfirm = new Confirm
+                {
+                    UserId = user.Id,
+                    Type = ConfirmType.RestorePassword,
+                    Code = Generator.GetConfirmCode(),
+                    ActiveFrom = now,
+                    ActiveTo = now.AddDays(1)
+                };
+
+                await _db.Confirms.AddAsync(newConfirm);
+                await _db.SaveChangesAsync();
+
+                //ToDo: send email on restore page
+
+                return Result<bool>.SuccessWithData(true);
+            }
+            else
+            {
+                var confirm = await _db.Confirms.AsNoTracking().Include(s => s.User).ThenInclude(s => s.Passwords).FirstOrDefaultAsync(s => s.Code == restorePasswordDto.Code && s.Type == ConfirmType.RestorePassword);
+
+                if (confirm == null)
+                    return Result<bool>.NotFound("Code not found");
+
+                if (!confirm.IsActualyRequest(now))
+                    return Result<bool>.Error("Code for change password is expired");
+
+                if (confirm.IsActivated)
+                    return Result<bool>.Error("Code is already activated");
+
+                var user = confirm.User;
+
+                var newPasswordHash = restorePasswordDto.NewPassword.GeneratePasswordHash();
+
+                var activePassword = user.Passwords.FirstOrDefault(s => s.PasswordHash == user.PasswordHash && s.IsActive);
+                activePassword.IsActive = false;
+                activePassword.DeactivatedAt = now;
+
+                var newPassword = new Password
+                {
+                    PasswordHash = newPasswordHash,
+                    IsActive = true,
+                    Question = restorePasswordDto.Question,
+                    Answer = restorePasswordDto.Answer,
+                    UserId = user.Id
+                };
+
+                user.PasswordHash = newPasswordHash;
+
+                var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => s.UserId == user.Id && s.IsActive).ToListAsync();
+
+                sessionsToClose.ForEach(session =>
+                {
+                    session.IsActive = false;
+                    session.Status = SessionStatus.Close;
+                    session.DeactivatedAt = now;
+                    session.DeactivatedBySessionId = null;
+                });
+
+                confirm.IsActivated = true;
+                confirm.ActivetedAt = now;
+
+                _db.Confirms.Update(confirm);
+                _db.Sessions.UpdateRange(sessionsToClose);
+                _db.Users.Update(user);
+                _db.Passwords.Update(activePassword);
+                await _db.Passwords.AddAsync(newPassword);
+                await _db.SaveChangesAsync();
+
+                _sessionManager.RemoveSessions(sessionsToClose.Select(s => s.Id));
+
+                //ToDo: send notification about change password
+
+                return Result<bool>.SuccessWithData(true);
+            }
         }
 
         public async Task<Result<bool>> SendConfirmAsync(int userId)

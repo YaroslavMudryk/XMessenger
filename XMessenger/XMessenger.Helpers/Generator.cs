@@ -16,7 +16,7 @@
 
         public static string GetConfirmCode()
         {
-            return Guid.NewGuid().ToString("N");
+            return Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
         }
 
         public static string GetAppId()
