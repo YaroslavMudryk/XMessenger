@@ -27,6 +27,7 @@ namespace XMessenger.Identity.Db.Context
         public DbSet<Token> Tokens { get; set; }
         public DbSet<AppClaim> AppClaims { get; set; }
         public DbSet<Password> Passwords { get; set; }
+        public DbSet<LoginChange> LoginChanges { get; set; }
         public DbSet<Qr> Qrs { get; set; }
         public DbSet<Confirm> Confirms { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }

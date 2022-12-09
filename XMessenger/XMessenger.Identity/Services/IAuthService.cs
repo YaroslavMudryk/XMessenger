@@ -5,6 +5,7 @@ namespace XMessenger.Identity.Services
 {
     public interface IAuthService
     {
+        Task<Result<bool>> ChangeLoginAsync(NewLoginDto loginDto);
         Task<Result<bool>> ChangePasswordAsync(NewPasswordDto passwordDto);
         Task<Result<bool>> ConfirmAccountAsync(string code, int userId);
         Task<Result<bool>> DisableMFAAsync(string code);

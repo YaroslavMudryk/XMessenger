@@ -28,5 +28,10 @@ namespace XMessenger.Identity.Extensions
                 DeactivatedAt = session.DeactivatedAt
             };
         }
+
+        public static IEnumerable<Guid> MapSessionIds(this IEnumerable<Session> sessions)
+        {
+            return sessions.Select(s => s.Id);
+        }
     }
 }

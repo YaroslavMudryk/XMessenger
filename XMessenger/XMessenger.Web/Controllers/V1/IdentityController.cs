@@ -92,6 +92,12 @@ namespace XMessenger.Web.Controllers.V1
             return JsonResult(await _authService.ChangePasswordAsync(passwordDto));
         }
 
+        [HttpPost("change-login")]
+        public async Task<IActionResult> ChangeLogin([FromBody] NewLoginDto loginDto)
+        {
+            return JsonResult(await _authService.ChangeLoginAsync(loginDto));
+        }
+
         #endregion
 
         #region Sessions

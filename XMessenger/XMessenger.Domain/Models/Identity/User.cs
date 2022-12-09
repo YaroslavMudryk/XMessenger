@@ -30,6 +30,7 @@ namespace XMessenger.Domain.Models.Identity
         public List<UserLogin> UserLogins { get; set; }
         public List<LoginAttempt> LoginAttempts { get; set; }
         public List<MFA> MFAs { get; set; }
+        public List<LoginChange> Logins { get; set; }
 
 
         public bool IsLocked()

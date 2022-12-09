@@ -9,6 +9,7 @@ using XMessenger.Helpers.Identity;
 using XMessenger.Helpers.Services;
 using XMessenger.Identity.Db.Context;
 using XMessenger.Identity.Dtos;
+using XMessenger.Identity.Extensions;
 using XMessenger.Identity.Sessions;
 
 namespace XMessenger.Identity.Services
@@ -29,6 +30,56 @@ namespace XMessenger.Identity.Services
             _locationService = locationService;
             _tokenService = tokenService;
             _sessionManager = sessionManager;
+        }
+
+        public async Task<Result<bool>> ChangeLoginAsync(NewLoginDto loginDto)
+        {
+            var sessionId = _identityService.GetCurrentSessionId();
+            var userId = _identityService.GetUserId();
+            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(s => s.Id == userId);
+            if (user == null)
+                return Result<bool>.NotFound("User not found");
+
+            if (await _db.Users.AsNoTracking().AnyAsync(s => s.Login == loginDto.NewLogin))
+                return Result<bool>.Error("Login is busy");
+
+            if (user.MFA)
+            {
+                var twoFactor = new TwoFactorAuthenticator();
+
+                var result = twoFactor.ValidateTwoFactorPIN(user.MFASecretKey, loginDto.CodeMFA);
+
+                if (!result)
+                    return Result<bool>.Error("Code is incorrect");
+            }
+
+            var sessionsToClose = await _db.Sessions.AsNoTracking().Where(s => s.IsActive && s.UserId == userId).ToListAsync();
+
+            sessionsToClose.ForEach(s =>
+            {
+                s.IsActive = false;
+                s.Status = SessionStatus.Close;
+                s.DeactivatedAt = DateTime.Now;
+                s.DeactivatedBySessionId = sessionId;
+            });
+
+            var newLoginChange = new LoginChange
+            {
+                OldLogin = user.Login,
+                NewLogin = loginDto.NewLogin,
+                UserId = userId
+            };
+
+            user.Login = loginDto.NewLogin;
+
+            _db.Users.Update(user);
+            _db.Sessions.UpdateRange(sessionsToClose);
+            await _db.LoginChanges.AddAsync(newLoginChange);
+            await _db.SaveChangesAsync();
+
+            _sessionManager.RemoveSessions(sessionsToClose.MapSessionIds());
+
+            return Result<bool>.SuccessWithData(true);
         }
 
         public async Task<Result<bool>> ChangePasswordAsync(NewPasswordDto passwordDto)
