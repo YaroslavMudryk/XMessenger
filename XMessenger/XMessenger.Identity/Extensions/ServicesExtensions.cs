@@ -31,6 +31,7 @@ namespace XMessenger.Identity.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<ISeederService, BaseSeederService>();
+            services.AddScoped<IAppService, AppService>();
 
             services.AddHttpContextAccessor();
 

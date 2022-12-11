@@ -11,10 +11,12 @@ namespace XMessenger.Web.Controllers.V1
     {
         private readonly IAuthService _authService;
         private readonly ISessionService _sessionService;
-        public IdentityController(IAuthService authService, ISessionService sessionService)
+        private readonly IAppService _appService;
+        public IdentityController(IAuthService authService, ISessionService sessionService, IAppService appService)
         {
             _authService = authService;
             _sessionService = sessionService;
+            _appService = appService;
         }
 
         #region Identity
@@ -112,6 +114,66 @@ namespace XMessenger.Web.Controllers.V1
         public async Task<IActionResult> CloseSessionById(Guid[] sessionIds)
         {
             return JsonResult(await _sessionService.CloseSessionsByIdsAsync(sessionIds));
+        }
+
+        #endregion
+
+        #region Apps
+
+        [HttpPost("apps")]
+        public async Task<IActionResult> CreateApp([FromBody] AppDto appDto)
+        {
+            return JsonResult(await _appService.CreateAppAsync(appDto));
+        }
+
+        [HttpPut("apps/{id}")]
+        public async Task<IActionResult> UpdateApp(int id, [FromBody] AppDto appDto)
+        {
+            appDto.Id = id;
+            return JsonResult(await _appService.UpdateAppAsync(appDto));
+        }
+
+        [HttpPut("apps/{id}/secret")]
+        public async Task<IActionResult> UpdateSecretApp(int id)
+        {
+            return JsonResult(await _appService.ChangeAppSecretAsync(id));
+        }
+
+        [HttpPut("apps/{id}/claims")]
+        public async Task<IActionResult> UpdateClaimsApp(int id, [FromBody] AppClaimsDto appClaims)
+        {
+            appClaims.Id = id;
+            return JsonResult(await _appService.UpdateAppClaimsAsync(appClaims));
+        }
+
+        [HttpDelete("apps/{id}")]
+        public async Task<IActionResult> DeleteApp(int id)
+        {
+            return JsonResult(await _appService.DeleteAppAsync(id));
+        }
+
+        [HttpGet("apps")]
+        public async Task<IActionResult> GetAllApps(int page)
+        {
+            return JsonResult(await _appService.GetAllAppsAsync(page));
+        }
+
+        [HttpGet("apps/{id}")]
+        public async Task<IActionResult> GetApp(int id)
+        {
+            return JsonResult(await _appService.GetAppByIdAsync(id));
+        }
+
+        [HttpGet("apps/{id}/secret")]
+        public async Task<IActionResult> GetAppSecret(int id)
+        {
+            return JsonResult(await _appService.GetAppSecretAsync(id));
+        }
+
+        [HttpGet("apps/my")]
+        public async Task<IActionResult> GetAllApps()
+        {
+            return JsonResult(await _appService.GetMyAppsAsync());
         }
 
         #endregion
