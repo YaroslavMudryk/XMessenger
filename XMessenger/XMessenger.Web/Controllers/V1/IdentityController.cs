@@ -12,11 +12,13 @@ namespace XMessenger.Web.Controllers.V1
         private readonly IAuthService _authService;
         private readonly ISessionService _sessionService;
         private readonly IAppService _appService;
-        public IdentityController(IAuthService authService, ISessionService sessionService, IAppService appService)
+        private readonly IRoleService _roleService;
+        public IdentityController(IAuthService authService, ISessionService sessionService, IAppService appService, IRoleService roleService)
         {
             _authService = authService;
             _sessionService = sessionService;
             _appService = appService;
+            _roleService = roleService;
         }
 
         #region Identity
@@ -175,6 +177,40 @@ namespace XMessenger.Web.Controllers.V1
         {
             return JsonResult(await _appService.GetMyAppsAsync());
         }
+
+        #endregion
+
+        #region Roles
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetAllRoles() => 
+            JsonResult(await _roleService.GetAllRolesAsync());
+
+        [HttpGet("roles/{id}")]
+        public async Task<IActionResult> GetRoleById(int id) =>
+            JsonResult(await _roleService.GetRoleByIdAsync(id));
+
+        [HttpPost("roles")]
+        public async Task<IActionResult> CreateRole([FromBody] RoleDto role) =>
+            JsonResult(await _roleService.CreateRoleAsync(role));
+
+        [HttpPut("roles/{id}")]
+        public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleDto role)
+        {
+            role.Id = id;
+            return JsonResult(await _roleService.UpdateRoleAsync(role));
+        }
+
+        [HttpPut("roles/{id}/claims")]
+        public async Task<IActionResult> UpdateRoleClaims(int id, [FromBody] RoleClaimsDto roleClaims)
+        {
+            roleClaims.Id = id;
+            return JsonResult(await _roleService.UpdateClaimsRoleAsync(roleClaims));
+        }
+
+        [HttpDelete("roles/{id}")]
+        public async Task<IActionResult> DeleteRole(int id) =>
+            JsonResult(await _roleService.DeleteRoleAsync(id));
 
         #endregion
     }

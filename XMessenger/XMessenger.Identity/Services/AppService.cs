@@ -54,6 +54,9 @@ namespace XMessenger.Identity.Services
                 if (await _db.Apps.AsNoTracking().CountAsync(s => s.CreatedBy == userId) >= 10)
                     return Result<AppViewModel>.Error("One user can create only 10 apps");
 
+            if (!await IsAllClaimsExistAsync(appDto.ClaimIds))
+                return Result<AppViewModel>.Error("Not all claims exist");
+
             var newApp = appDto.Adapt<App>();
 
             newApp.ClientId = Generator.GetAppId();

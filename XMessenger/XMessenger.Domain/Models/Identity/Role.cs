@@ -13,6 +13,7 @@ namespace XMessenger.Domain.Models.Identity
         public Role(string name)
         {
             Name = name;
+            NameNormalized = name.ToUpper();
         }
         public Role()
         {
