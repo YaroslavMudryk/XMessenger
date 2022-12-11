@@ -64,6 +64,7 @@ namespace XMessenger.Identity.Seeder
                 ShortName = "Тест. зас.",
                 ActiveFrom = now,
                 ActiveTo = now.AddYears(5),
+                Image = "/files/Other.png",
                 ClientId = "F94A4E87C1FD23C102800D",
                 ClientSecret = "b2e459a6c58a472da53e47a46d6c5ad4c1ecda073aa4402b9724ac55cd65dcc4",
             };

@@ -4,6 +4,6 @@ namespace XMessenger.Identity.Services
 {
     public interface ILocationService
     {
-        Task<LocationInfo> GetLocationAsync(string ip);
+        Task<LocationInfo> GetIpInfoAsync(string ip);
     }
 }

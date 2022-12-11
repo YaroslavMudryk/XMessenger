@@ -373,7 +373,7 @@ namespace XMessenger.Identity.Services
             if (!app.IsActiveByTime())
                 return Result<JwtTokenDto>.Error("App is expired");
 
-            var location = await _locationService.GetLocationAsync(_identityService.GetIP());
+            var location = await _locationService.GetIpInfoAsync(_identityService.GetIP());
 
             var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(s => s.Login == loginDto.Login);
             if (user == null)
@@ -444,7 +444,8 @@ namespace XMessenger.Identity.Services
                 Name = app.Name,
                 Description = app.Description,
                 ShortName = app.ShortName,
-                Version = loginDto.App.Version
+                Version = loginDto.App.Version,
+                Image = app.Image
             };
 
             var session = new Session

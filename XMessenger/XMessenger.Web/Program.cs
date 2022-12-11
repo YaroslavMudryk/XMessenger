@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using XMessenger.Helpers;
@@ -103,6 +104,12 @@ app.UseApiVersioning();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot/Images")),
+    RequestPath = "/files"
+});
 
 app.UseRouting();
 

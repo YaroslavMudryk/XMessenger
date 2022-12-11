@@ -18,4 +18,8 @@
     <ProjectReference Include="..\XMessenger.Infrastructure.IoC\XMessenger.Infrastructure.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

@@ -7,7 +7,7 @@ namespace XMessenger.Identity.Services
 {
     public class LocationService : ILocationService
     {
-        public async Task<LocationInfo> GetLocationAsync(string ip)
+        public async Task<LocationInfo> GetIpInfoAsync(string ip)
         {
             if (ip == "127.0.1" || ip == "127.0.0.1")
                 ip = "localhost";
