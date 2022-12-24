@@ -1,0 +1,48 @@
+{
+  "firstName": "Ярослав",
+  "lastName": "М",
+  "login": "yarik@gmail.com",
+  "password": "Yarik08!",
+  "question":"перша папуга",
+  "keyForPassword": "жако",
+  "userName": "Yarik08"
+}
+
+{
+  "login": "yarik@gmail.com",
+  "password": "Yarik08!",
+  "lang": "укр",
+  "app": {
+    "id": "F94A4E87C1FD23C102800D",
+    "secret": "b2e459a6c58a472da53e47a46d6c5ad4c1ecda073aa4402b9724ac55cd65dcc4",
+    "version": "0.1"
+  }
+}
+
+{
+  "oldPassword": "Yarik08!",
+  "newPassword": "Yarik09!",
+  "codeMFA": "242746",
+  "question": "професія",
+  "answer": "програміст"
+}
+
+{
+  "login": "yarik@gmail.com",
+  "newPassword": "Yarik08!",
+  "question": "string",
+  "answer": "string",
+  "code": "a1bf91cc746d4a96961bd8fd8ba0d719024b6a60a3144f19b67447c0a16b604c"
+}
+
+{
+  "name": "Мобільний додаток",
+  "shortName": "Мобільний",
+  "description": "Мобільний додаток для платформи Android",
+  "isActive": true,
+  "activeFrom": "2022-12-11T10:00:00",
+  "activeTo": "2025-12-11T10:00:00",
+  "claimIds": [
+    2
+  ]
+}
