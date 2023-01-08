@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XMessenger.Database\XMessenger.Database.csproj" />
     <ProjectReference Include="..\XMessenger.Identity\XMessenger.Identity.csproj" />
   </ItemGroup>
 

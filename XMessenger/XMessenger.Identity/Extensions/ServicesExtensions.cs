@@ -16,8 +16,7 @@ namespace XMessenger.Identity.Extensions
         {
             services.AddDbContext<IdentityContext>(options =>
             {
-                var conn = configuration["DbConnectionStrings:IdentityDb:SqlServer"];
-                options.UseSqlServer(conn);
+                options.UseSqlServer(configuration["DbConnectionStrings:IdentityDb:SqlServer"]);
                 //options.UseNpgsql(configuration["DbConnectionStrings:IdentityDb:PostgreSQL"]);
                 //options.UseSqlite(configuration["DbConnectionStrings:IdentityDb:Sqlite"]);
             });
