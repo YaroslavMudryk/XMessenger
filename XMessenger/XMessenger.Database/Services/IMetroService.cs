@@ -220,7 +220,7 @@ namespace XMessenger.Database.Services
                 Name = s.Name,
                 Code = s.Code,
                 IsTransfer = s.IsTransfer
-            }).ToList(), Meta.FromMeta(metroStations.Count, 1));
+            }).OrderBy(s=>s.Code).ToList(), Meta.FromMeta(metroStations.Count, 1));
         }
 
         public async Task<Result<MetroViewModel>> GetMetroAsync(int metroId)

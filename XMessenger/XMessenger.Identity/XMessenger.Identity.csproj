@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XMessenger.Database\XMessenger.Database.csproj" />
     <ProjectReference Include="..\XMessenger.Domain\XMessenger.Domain.csproj" />
     <ProjectReference Include="..\XMessenger.Helpers\XMessenger.Helpers.csproj" />
   </ItemGroup>

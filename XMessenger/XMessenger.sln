@@ -7,17 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Web", "XMessenge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Domain", "XMessenger.Domain\XMessenger.Domain.csproj", "{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Application", "XMessenger.Application\XMessenger.Application.csproj", "{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.Data", "XMessenger.Infrastructure.Data\XMessenger.Infrastructure.Data.csproj", "{EDA733D4-BDC6-4700-8EAB-626B678C0510}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Infrastructure.IoC", "XMessenger.Infrastructure.IoC\XMessenger.Infrastructure.IoC.csproj", "{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Helpers", "XMessenger.Helpers\XMessenger.Helpers.csproj", "{8E57620E-F731-48AD-A143-0F8C10C56F30}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Identity", "XMessenger.Identity\XMessenger.Identity.csproj", "{822C9339-A1A5-4BAD-9403-EE1A05E39D24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMessenger.Database", "XMessenger.Database\XMessenger.Database.csproj", "{9D903244-95F2-4AC9-AA61-6BB29341D016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMessenger.Database", "XMessenger.Database\XMessenger.Database.csproj", "{9D903244-95F2-4AC9-AA61-6BB29341D016}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +29,6 @@ Global
 		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AD69C44-D462-45E9-9A19-1335A4FC7C2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7BF2EC0-399D-4774-9F3C-D45226F8FAC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDA733D4-BDC6-4700-8EAB-626B678C0510}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB4B1AE-5A47-4E68-8D0A-4C01F2495ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
