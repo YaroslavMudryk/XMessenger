@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 
 namespace XMessenger.Identity.Db.Configurations
 {

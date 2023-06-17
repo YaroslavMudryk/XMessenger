@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 using XMessenger.Helpers;
 using XMessenger.Helpers.Services;
 using XMessenger.Identity.Db.Context;

@@ -1,5 +1,5 @@
 ﻿using Extensions.DeviceDetector.Models;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 
 namespace XMessenger.Identity.ViewModels
 {

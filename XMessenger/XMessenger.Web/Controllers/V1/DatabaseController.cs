@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XMessenger.Database.Dtos;
-using XMessenger.Database.Services;
+using XMessenger.Database.Services.Interfaces;
 
 namespace XMessenger.Web.Controllers.V1
 {
@@ -37,9 +37,15 @@ namespace XMessenger.Web.Controllers.V1
         }
 
         [HttpGet("regions/{regionId}/settlements")]
-        public async Task<IActionResult> GetAllSettlements(int regionId, int page = 1)
+        public async Task<IActionResult> GetAllSettlementsByRegionId(int regionId, int page = 1)
         {
-            return JsonResult(await _settlementService.GetAllSettlementsAsync(regionId, page));
+            return JsonResult(await _settlementService.GetAllSettlementsByRegionIdAsync(regionId, page));
+        }
+
+        [HttpGet("areas/{areaId}/settlements")]
+        public async Task<IActionResult> GetAllSettlementsByAreaId(int areaId, int page = 1)
+        {
+            return JsonResult(await _settlementService.GetAllSettlementsByAreaIdAsync(areaId, page));
         }
 
         [HttpGet("settlements/{settlementId}/universities")]

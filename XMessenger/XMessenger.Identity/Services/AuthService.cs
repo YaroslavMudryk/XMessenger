@@ -2,7 +2,7 @@
 using Extensions.Password;
 using Google.Authenticator;
 using Microsoft.EntityFrameworkCore;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 using XMessenger.Helpers;
 using XMessenger.Helpers.Extensions;
 using XMessenger.Helpers.Identity;

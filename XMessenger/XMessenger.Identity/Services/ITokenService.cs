@@ -1,4 +1,4 @@
-﻿using XMessenger.Domain.Models.Identity;
+﻿using XMessenger.Identity.Models;
 using XMessenger.Identity.Dtos;
 
 namespace XMessenger.Identity.Services

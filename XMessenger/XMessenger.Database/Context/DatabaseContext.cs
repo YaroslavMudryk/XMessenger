@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Domain.Models.Database;
 using XMessenger.Helpers.Db.Extensions;
 using XMessenger.Helpers.Services;
 
@@ -17,6 +16,7 @@ namespace XMessenger.Database.Context
 
         public DbSet<Country> Countries { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<Area> Areas { get; set; }
         public DbSet<Settlement> Settlements { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<Faculty> Faculties { get; set; }

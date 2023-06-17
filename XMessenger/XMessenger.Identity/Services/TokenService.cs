@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 using XMessenger.Helpers;
 using XMessenger.Helpers.Identity;
 using XMessenger.Identity.Db.Context;
@@ -48,7 +48,7 @@ namespace XMessenger.Identity.Services
 
             var claimsFromApp = await _db.AppClaims.AsNoTracking().Include(s => s.Claim).Where(s => s.AppId == session.App.Id).Select(s => s.Claim).ToListAsync();
 
-            var claimsForToken = GetUniqClaims(new List<IEnumerable<XMessenger.Domain.Models.Identity.Claim>> { claimsFromRole, claimsFromApp });
+            var claimsForToken = GetUniqClaims(new List<IEnumerable<XMessenger.Identity.Models.Claim>> { claimsFromRole, claimsFromApp });
 
             foreach (var claim in claimsForToken)
             {
@@ -79,9 +79,9 @@ namespace XMessenger.Identity.Services
             };
         }
 
-        private List<XMessenger.Domain.Models.Identity.Claim> GetUniqClaims(IEnumerable<IEnumerable<XMessenger.Domain.Models.Identity.Claim>> source)
+        private List<XMessenger.Identity.Models.Claim> GetUniqClaims(IEnumerable<IEnumerable<XMessenger.Identity.Models.Claim>> source)
         {
-            var claims = new List<XMessenger.Domain.Models.Identity.Claim>();
+            var claims = new List<XMessenger.Identity.Models.Claim>();
 
             foreach (var enumerable in source)
             {

@@ -1,6 +1,4 @@
-﻿using XMessenger.Domain.Models.Database;
-
-namespace XMessenger.Database.ViewModels
+﻿namespace XMessenger.Database.ViewModels
 {
     public class CountryViewModel
     {

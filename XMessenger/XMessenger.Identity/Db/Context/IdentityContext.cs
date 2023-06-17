@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Domain.Models.Identity;
+using XMessenger.Identity.Models;
 using XMessenger.Helpers.Db.Extensions;
 using XMessenger.Helpers.Services;
 using XMessenger.Identity.Db.Configurations;
@@ -23,7 +23,7 @@ namespace XMessenger.Identity.Db.Context
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RoleClaim> RoleClaims { get; set; }
-        public DbSet<Claim> Claims { get; set; }
+        public DbSet<Models.Claim> Claims { get; set; }
         public DbSet<Token> Tokens { get; set; }
         public DbSet<AppClaim> AppClaims { get; set; }
         public DbSet<Password> Passwords { get; set; }

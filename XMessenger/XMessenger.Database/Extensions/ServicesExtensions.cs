@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XMessenger.Database.Context;
-using XMessenger.Database.Services;
+using XMessenger.Database.Services.Implementations;
+using XMessenger.Database.Services.Interfaces;
 
 namespace XMessenger.Database.Extensions
 {
@@ -20,6 +21,7 @@ namespace XMessenger.Database.Extensions
 
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IRegionService, RegionService>();
+            services.AddScoped<IAreaService, AreaService>();
             services.AddScoped<ISettlementService, SettlementService>();
             services.AddScoped<IUniversityService, UniversityService>();
             services.AddScoped<IMetroService, MetroService>();
