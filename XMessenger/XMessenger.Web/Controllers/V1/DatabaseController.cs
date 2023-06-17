@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XMessenger.Database.Dtos;
+using XMessenger.Database.Import;
 using XMessenger.Database.Services.Interfaces;
 
 namespace XMessenger.Web.Controllers.V1
@@ -12,15 +13,23 @@ namespace XMessenger.Web.Controllers.V1
         private readonly ISettlementService _settlementService;
         private readonly IUniversityService _universityService;
         private readonly IMetroService _metroService;
-        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService)
+        private readonly ICountryDataImport _countryDataImport;
+        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService, ICountryDataImport countryDataImport)
         {
             _countryService = countryService;
             _regionService = regionService;
             _settlementService = settlementService;
             _universityService = universityService;
             _metroService = metroService;
+            _countryDataImport = countryDataImport;
         }
 
+        [HttpGet("init")]
+        public async Task<IActionResult> InitCountry()
+        {
+            var res = await _countryDataImport.ImportCountryDataAsync();
+            return Ok();
+        }
 
         #region Read
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XMessenger.Database.Context;
+using XMessenger.Database.Import;
 using XMessenger.Database.Services.Implementations;
 using XMessenger.Database.Services.Interfaces;
 
@@ -25,6 +26,9 @@ namespace XMessenger.Database.Extensions
             services.AddScoped<ISettlementService, SettlementService>();
             services.AddScoped<IUniversityService, UniversityService>();
             services.AddScoped<IMetroService, MetroService>();
+
+
+            services.AddScoped<ICountryDataImport, MapsVlasenkoCountryDataImport>();
         }
     }
 }
