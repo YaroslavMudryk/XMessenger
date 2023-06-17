@@ -67,7 +67,8 @@ namespace XMessenger.Database.Services.Implementations
         public async Task<Result<List<SettlementSearchViewModel>>> SearchSettlementsAsync(string q, int page = 1)
         {
             var settlements = await _db.Settlements.AsNoTracking()
-                .Where(s => s.Name.Contains(q))
+                .Where(s => s.Name == q || s.Name.Contains(q))
+                .OrderBy(s => s.Name).ThenBy(s => s.Id)
                 .Include(s => s.Area).ThenInclude(s => s.Region)
                 .Skip(50 * (page - 1)).Take(50).OrderBy(s => s.Name)
                 .ToListAsync();
@@ -80,7 +81,7 @@ namespace XMessenger.Database.Services.Implementations
                 Type = s.Type,
                 Area = s.Area.Name,
                 Region = s.Area.Region.Name
-            }).ToList(), Meta.FromMeta(totalCount, page));
+            }).OrderBy(s => s.Id).ThenBy(s => s.Name).ToList(), Meta.FromMeta(totalCount, page));
         }
 
         public async Task<Result<List<SettlementViewModel>>> GetAllSettlementsByAreaIdAsync(int areaId, int page = 1)
