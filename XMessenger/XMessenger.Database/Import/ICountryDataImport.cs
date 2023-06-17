@@ -1,7 +1,11 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using XMessenger.Database.Context;
+using XMessenger.Helpers.Extensions;
 
 namespace XMessenger.Database.Import
 {
@@ -12,16 +16,22 @@ namespace XMessenger.Database.Import
 
     public class MapsVlasenkoCountryDataImport : ICountryDataImport
     {
-        private readonly Dictionary<string, SettlementType> _settlementTypes = new Dictionary<string, SettlementType>
-        {
-            ["С"] = SettlementType.Village,
-            ["С-ЩЕ"] = SettlementType.Village,
-            ["СМТ"] = SettlementType.UrbanVillage,
-            ["М"] = SettlementType.City
-        };
-
+        private readonly DatabaseContext _db;
         private readonly string _url = "https://maps.vlasenko.net/list/ukraine/";
         private readonly IBrowsingContext _context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
+        private readonly Dictionary<string, SettlementType> _settlementTypes;
+
+        public MapsVlasenkoCountryDataImport(DatabaseContext db)
+        {
+            _db = db;
+            _settlementTypes = new Dictionary<string, SettlementType>
+            {
+                ["С"] = SettlementType.Village,
+                ["С-ЩЕ"] = SettlementType.Village,
+                ["СМТ"] = SettlementType.UrbanVillage,
+                ["М"] = SettlementType.City
+            };
+        }
         public async Task<Country> ImportCountryDataAsync()
         {
             var country = new Country();
@@ -33,11 +43,10 @@ namespace XMessenger.Database.Import
 
             country.Regions = GetRegions(mainPageDocument);
 
-
-
             var jsonOptions = new JsonSerializerOptions
             {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
 
             var json = JsonSerializer.Serialize(country, jsonOptions);
@@ -46,6 +55,12 @@ namespace XMessenger.Database.Import
             {
                 await sw.WriteAsync(json);
                 sw.Close();
+            }
+
+            if (await _db.Countries.AnyAsync(s => s.Name != country.Name))
+            {
+                await _db.Countries.AddAsync(country);
+                await _db.SaveChangesAsync();
             }
 
             return country;
@@ -117,9 +132,12 @@ namespace XMessenger.Database.Import
                 var smallElement = i.QuerySelector("small");
                 var aElement = allBs[currentIndex++].QuerySelector("a");
 
+                if (string.IsNullOrEmpty(aElement.TextContent) || string.IsNullOrEmpty(smallElement.TextContent))
+                    continue;
+
                 var newSettlement = new Settlement
                 {
-                    Name = aElement.TextContent,
+                    Name = aElement.TextContent.ToUpperFirstLatter(),
                     Type = _settlementTypes[smallElement.TextContent]
                 };
                 listSettlements.Add(newSettlement);

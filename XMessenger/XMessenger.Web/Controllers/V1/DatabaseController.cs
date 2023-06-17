@@ -33,6 +33,12 @@ namespace XMessenger.Web.Controllers.V1
 
         #region Read
 
+        [HttpGet("settlements/search/{q}")]
+        public async Task<IActionResult> QuerySettlementsAsync(string q)
+        {
+            return JsonResult(await _settlementService.SearchSettlementsAsync(q));
+        }
+
         [HttpGet("countries")]
         public async Task<IActionResult> GetAllContries()
         {
