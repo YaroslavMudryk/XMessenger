@@ -13,8 +13,8 @@ namespace XMessenger.Web.Controllers.V1
         private readonly ISettlementService _settlementService;
         private readonly IUniversityService _universityService;
         private readonly IMetroService _metroService;
-        private readonly ICountryDataImport _countryDataImport;
-        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService, ICountryDataImport countryDataImport)
+        private readonly ICountryData _countryDataImport;
+        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService, ICountryData countryDataImport)
         {
             _countryService = countryService;
             _regionService = regionService;
@@ -24,10 +24,17 @@ namespace XMessenger.Web.Controllers.V1
             _countryDataImport = countryDataImport;
         }
 
-        [HttpGet("init")]
-        public async Task<IActionResult> InitCountry()
+        [HttpGet("import")]
+        public async Task<IActionResult> ImportCountry()
         {
             var res = await _countryDataImport.ImportCountryDataAsync();
+            return Ok();
+        }
+
+        [HttpGet("export/{name}")]
+        public async Task<IActionResult> ExportCountry(string name)
+        {
+            var res = await _countryDataImport.ExportCountryDataAsync(name);
             return Ok();
         }
 
