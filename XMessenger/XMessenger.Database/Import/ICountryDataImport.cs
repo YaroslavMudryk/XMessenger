@@ -51,13 +51,13 @@ namespace XMessenger.Database.Import
 
             var json = JsonSerializer.Serialize(country, jsonOptions);
 
-            using (var sw = new StreamWriter("country.json"))
+            using (var sw = new StreamWriter("country-uk.json"))
             {
                 await sw.WriteAsync(json);
                 sw.Close();
             }
 
-            if (await _db.Countries.AnyAsync(s => s.Name != country.Name))
+            if (await _db.Countries.FirstOrDefaultAsync(s => s.Name == country.Name) == null)
             {
                 await _db.Countries.AddAsync(country);
                 await _db.SaveChangesAsync();

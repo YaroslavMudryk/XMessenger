@@ -14,7 +14,7 @@
     public enum SettlementType
     {
         City = 1,
+        UrbanVillage,
         Village,
-        UrbanVillage
     }
 }
