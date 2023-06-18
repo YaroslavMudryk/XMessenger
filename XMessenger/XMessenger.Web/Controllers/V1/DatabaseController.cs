@@ -39,6 +39,12 @@ namespace XMessenger.Web.Controllers.V1
             return JsonResult(await _settlementService.SearchSettlementsAsync(q));
         }
 
+        [HttpGet("settlements/{id}")]
+        public async Task<IActionResult> GetSettlementByIdAsync(int id)
+        {
+            return JsonResult(await _settlementService.GetSettlementByIdAsync(id));
+        }
+
         [HttpGet("countries")]
         public async Task<IActionResult> GetAllContries()
         {

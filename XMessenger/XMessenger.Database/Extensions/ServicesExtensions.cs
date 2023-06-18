@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using XMessenger.Database.Context;
+using XMessenger.Database.Db.Context;
 using XMessenger.Database.Import;
 using XMessenger.Database.Services.Implementations;
 using XMessenger.Database.Services.Interfaces;

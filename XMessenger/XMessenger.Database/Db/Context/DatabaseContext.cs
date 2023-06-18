@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using XMessenger.Database.Db.Configurations;
 using XMessenger.Helpers.Db.Extensions;
 using XMessenger.Helpers.Services;
 
-namespace XMessenger.Database.Context
+namespace XMessenger.Database.Db.Context
 {
     public class DatabaseContext : DbContext
     {
@@ -37,6 +38,11 @@ namespace XMessenger.Database.Context
             this.ApplyAuditInfo(_identityService);
 
             return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new SettlementConfiguration());
         }
     }
 }

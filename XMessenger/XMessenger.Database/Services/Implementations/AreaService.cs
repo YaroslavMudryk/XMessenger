@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Database.Context;
+using XMessenger.Database.Db.Context;
 using XMessenger.Database.Dtos;
 using XMessenger.Database.Services.Interfaces;
 using XMessenger.Database.ViewModels;

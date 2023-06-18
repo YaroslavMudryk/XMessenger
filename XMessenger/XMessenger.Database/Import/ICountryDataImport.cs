@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using XMessenger.Database.Context;
+using XMessenger.Database.Db.Context;
 using XMessenger.Helpers.Extensions;
 
 namespace XMessenger.Database.Import

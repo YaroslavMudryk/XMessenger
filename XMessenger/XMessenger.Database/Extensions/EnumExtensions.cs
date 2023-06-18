@@ -4,14 +4,21 @@
     {
         public static string GetName(this Settlement value)
         {
+            string name;
+
             if (value.Type == SettlementType.Village)
-                return $"с. {value.Name}";
-            if (value.Type == SettlementType.UrbanVillage)
-                return $"смт. {value.Name}";
-            if (value.Type == SettlementType.City)
-                return $"м. {value.Name}";
+                name = $"с. {value.Name}";
+            else if (value.Type == SettlementType.UrbanVillage)
+                name = $"смт. {value.Name}";
+            else if (value.Type == SettlementType.City)
+                name = $"м. {value.Name}";
             else
-                return $"н/в {value.Name}";
+                name = $"н/в {value.Name}";
+
+            if (value.OldNames != null && value.OldNames.Count > 0)
+                name += $" ({string.Join(", ", value.OldNames)})";
+
+            return name;
         }
     }
 }
