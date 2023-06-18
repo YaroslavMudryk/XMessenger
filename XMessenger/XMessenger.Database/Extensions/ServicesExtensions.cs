@@ -28,7 +28,7 @@ namespace XMessenger.Database.Extensions
             services.AddScoped<IMetroService, MetroService>();
 
 
-            services.AddScoped<ICountryDataImport, MapsVlasenkoCountryDataImport>();
+            services.AddScoped<ICountryDataImport, JsonFileCountryDataImport>();
         }
     }
 }

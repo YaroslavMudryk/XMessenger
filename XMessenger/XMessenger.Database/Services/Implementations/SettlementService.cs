@@ -76,9 +76,9 @@ namespace XMessenger.Database.Services.Implementations
         {
             var settlements = await _db.Settlements.AsNoTracking()
                 .Where(s => s.Name == q || s.Name.Contains(q))
-                .OrderBy(s => s.Name).ThenBy(s => s.Id)
+                .OrderBy(s => s.Type).ThenBy(s => s.Id)
                 .Include(s => s.Area).ThenInclude(s => s.Region).ThenInclude(s => s.Country)
-                .Skip(50 * (page - 1)).Take(50).OrderBy(s => s.Name)
+                .Skip(50 * (page - 1)).Take(50)
                 .ToListAsync();
             var totalCount = await _db.Settlements.CountAsync(s => s.Name.Contains(q));
 
@@ -90,7 +90,7 @@ namespace XMessenger.Database.Services.Implementations
                 Area = s.Area.Name,
                 Region = s.Area.Region.Name,
                 Country = s.Area.Region.Country.Name
-            }).OrderBy(s => s.Id).ThenBy(s => s.Name).ToList(), Meta.FromMeta(totalCount, page));
+            }).ToList(), Meta.FromMeta(totalCount, page));
         }
 
         public async Task<Result<List<SettlementViewModel>>> GetAllSettlementsByAreaIdAsync(int areaId, int page = 1)
