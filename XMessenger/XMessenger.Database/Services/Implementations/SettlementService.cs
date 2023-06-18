@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using XMessenger.Database.Context;
 using XMessenger.Database.Dtos;
+using XMessenger.Database.Extensions;
 using XMessenger.Database.Services.Interfaces;
 using XMessenger.Database.ViewModels;
 
@@ -77,7 +78,7 @@ namespace XMessenger.Database.Services.Implementations
             return Result<List<SettlementSearchViewModel>>.SuccessList(settlements.Select(s => new SettlementSearchViewModel
             {
                 Id = s.Id,
-                Name = s.Name,
+                Name = s.GetName(),
                 Type = s.Type,
                 Area = s.Area.Name,
                 Region = s.Area.Region.Name
