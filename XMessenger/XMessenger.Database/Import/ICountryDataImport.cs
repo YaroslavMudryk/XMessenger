@@ -16,6 +16,7 @@ namespace XMessenger.Database.Import
 
     public class MapsVlasenkoCountryDataImport : ICountryDataImport
     {
+        private readonly string _countryUAPath;
         private readonly DatabaseContext _db;
         private readonly string _url = "https://maps.vlasenko.net/list/ukraine/";
         private readonly IBrowsingContext _context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
@@ -31,6 +32,7 @@ namespace XMessenger.Database.Import
                 ["СМТ"] = SettlementType.UrbanVillage,
                 ["М"] = SettlementType.City
             };
+            _countryUAPath = "country-uk.json";
         }
         public async Task<Country> ImportCountryDataAsync()
         {
@@ -51,7 +53,7 @@ namespace XMessenger.Database.Import
 
             var json = JsonSerializer.Serialize(country, jsonOptions);
 
-            using (var sw = new StreamWriter("country-uk.json"))
+            using (var sw = new StreamWriter(_countryUAPath))
             {
                 await sw.WriteAsync(json);
                 sw.Close();
@@ -86,7 +88,7 @@ namespace XMessenger.Database.Import
                 regions.Add(region);
             }
 
-            return regions;
+            return regions.OrderBy(s => s.Name).ToList();
         }
 
         private List<Area> GetAreas(string url)
@@ -110,7 +112,7 @@ namespace XMessenger.Database.Import
                 });
             }
 
-            return areaList;
+            return areaList.OrderBy(s => s.Name).ToList();
         }
 
         private List<Settlement> GetSettlements(IDocument document, int index)
@@ -143,7 +145,7 @@ namespace XMessenger.Database.Import
                 listSettlements.Add(newSettlement);
             }
 
-            return listSettlements;
+            return listSettlements.OrderBy(s => s.Name).ToList();
         }
     }
 }
