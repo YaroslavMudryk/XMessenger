@@ -1,6 +1,6 @@
 ﻿namespace XMessenger.Database.Models
 {
-    public class Faculty : BaseModel<int>
+    public class Faculty : DatabaseModel<int>
     {
         public string Name { get; set; }
         public int UniversityId { get; set; }

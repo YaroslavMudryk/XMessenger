@@ -1,6 +1,6 @@
 ﻿namespace XMessenger.Database.Models
 {
-    public class Area : BaseModel<int>
+    public class Area : DatabaseModel<int>
     {
         public string Name { get; set; }
         public string Flag { get; set; }

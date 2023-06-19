@@ -1,6 +1,6 @@
 ﻿namespace XMessenger.Database.Models
 {
-    public class MetroStation : BaseModel<int>
+    public class MetroStation : DatabaseModel<int>
     {
         public string Name { get; set; }
         public string Code { get; set; }

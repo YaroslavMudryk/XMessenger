@@ -1,9 +1,8 @@
-﻿using XMessenger.Database.Db;
-
-namespace XMessenger.Database.Models
+﻿namespace XMessenger.Database.Export.Models
 {
-    public class University : DatabaseModel<int>
+    public class UniversityModel : ExportModel
     {
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string ShortName { get; set; }
         public string Address { get; set; }
@@ -12,8 +11,6 @@ namespace XMessenger.Database.Models
         public double Lat { get; set; }
         public double Long { get; set; }
         public string CodeEDBO { get; set; }
-        public int SettlementId { get; set; }
-        public Settlement Settlement { get; set; }
-        public List<Faculty> Faculties { get; set; }
+        public List<FacultyModel> Faculties { get; set; }
     }
 }

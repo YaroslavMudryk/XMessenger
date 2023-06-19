@@ -1,6 +1,6 @@
 ﻿namespace XMessenger.Database.Models
 {
-    public class Settlement : BaseModel<int>
+    public class Settlement : DatabaseModel<int>
     {
         public string Name { get; set; }
         public string Flag { get; set; }
