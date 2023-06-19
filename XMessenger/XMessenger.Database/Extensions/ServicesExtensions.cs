@@ -2,7 +2,7 @@
 {
     public static class ServicesExtensions
     {
-        public static void AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddDatabaseServices(this IServiceCollection services, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             services.AddDbContext<DatabaseContext>(options =>
             {
@@ -19,8 +19,7 @@
             services.AddScoped<IUniversityService, UniversityService>();
             services.AddScoped<IMetroService, MetroService>();
 
-
-            services.AddScoped<ICountryData, JsonFileCountryDataImport>();
+            services.AddScoped<ISeederService, DatabaseSeederService>();
         }
     }
 }

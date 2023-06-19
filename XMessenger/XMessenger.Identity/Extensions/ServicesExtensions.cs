@@ -19,9 +19,10 @@
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ISessionService, SessionService>();
-            services.AddScoped<ISeederService, BaseSeederService>();
             services.AddScoped<IAppService, AppService>();
             services.AddScoped<IRoleService, RoleService>();
+
+            services.AddScoped<ISeederService, IdentitySeederService>();
 
             services.AddHttpContextAccessor();
 

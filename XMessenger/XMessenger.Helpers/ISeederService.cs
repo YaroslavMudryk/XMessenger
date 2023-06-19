@@ -1,4 +1,4 @@
-﻿namespace XMessenger.Identity.Seeder
+﻿namespace XMessenger.Helpers
 {
     public interface ISeederService
     {

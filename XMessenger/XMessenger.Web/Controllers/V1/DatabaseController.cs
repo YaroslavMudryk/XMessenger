@@ -8,29 +8,13 @@
         private readonly ISettlementService _settlementService;
         private readonly IUniversityService _universityService;
         private readonly IMetroService _metroService;
-        private readonly ICountryData _countryDataImport;
-        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService, ICountryData countryDataImport)
+        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService)
         {
             _countryService = countryService;
             _regionService = regionService;
             _settlementService = settlementService;
             _universityService = universityService;
             _metroService = metroService;
-            _countryDataImport = countryDataImport;
-        }
-
-        [HttpGet("import")]
-        public async Task<IActionResult> ImportCountry()
-        {
-            var res = await _countryDataImport.ImportCountryDataAsync();
-            return Ok();
-        }
-
-        [HttpGet("export/{name}")]
-        public async Task<IActionResult> ExportCountry(string name)
-        {
-            var res = await _countryDataImport.ExportCountryDataAsync(name);
-            return Ok();
         }
 
         #region Read

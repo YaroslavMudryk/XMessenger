@@ -3,16 +3,25 @@
     [ApiVersion("1.0")]
     public class NewController : ApiBaseController
     {
-        private readonly ISeederService _seederService;
-        public NewController(ISeederService seederService)
+        private readonly IEnumerable<ISeederService> _seederServices;
+        public NewController(IEnumerable<ISeederService> seederServices)
         {
-            _seederService = seederService;
+            _seederServices = seederServices;
         }
 
         [HttpGet]
         public async Task<IActionResult> New()
         {
-            return JsonResult(await _seederService.SeedSystemAsync());
+            int count = 0;
+
+            foreach (var seederService in _seederServices)
+            {
+                var res = await seederService.SeedSystemAsync();
+
+                count++;
+            }
+
+            return JsonResult(Result<string>.SuccessWithData($"Ініціалізовано {count} Баз даних"));
         }
     }
 }
