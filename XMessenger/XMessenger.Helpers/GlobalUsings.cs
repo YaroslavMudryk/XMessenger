@@ -1,3 +1,14 @@
 ﻿global using Microsoft.AspNetCore.Http;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using System.Globalization;
 global using System.Security.Claims;
+global using System.Text;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
+global using XMessenger.Helpers.Db;
+global using XMessenger.Helpers.Extensions;
 global using XMessenger.Helpers.Identity;
+global using XMessenger.Helpers.Services;

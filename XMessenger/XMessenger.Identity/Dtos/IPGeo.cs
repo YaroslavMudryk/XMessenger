@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace XMessenger.Identity.Dtos
+﻿namespace XMessenger.Identity.Dtos
 {
     public class IPGeo
     {

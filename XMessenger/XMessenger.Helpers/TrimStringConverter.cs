@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace XMessenger.Helpers
+﻿namespace XMessenger.Helpers
 {
     public class TrimStringConverter : JsonConverter<string?>
     {

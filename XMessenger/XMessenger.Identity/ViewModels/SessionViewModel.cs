@@ -1,7 +1,4 @@
-﻿using Extensions.DeviceDetector.Models;
-using XMessenger.Identity.Models;
-
-namespace XMessenger.Identity.ViewModels
+﻿namespace XMessenger.Identity.ViewModels
 {
     public class SessionViewModel
     {

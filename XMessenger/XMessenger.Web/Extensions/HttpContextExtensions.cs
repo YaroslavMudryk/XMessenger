@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace XMessenger.Web.Extensions
+﻿namespace XMessenger.Web.Extensions
 {
     public static class HttpContextExtensions
     {

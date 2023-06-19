@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Database.Db.Configurations;
-using XMessenger.Helpers.Db.Extensions;
-using XMessenger.Helpers.Services;
-
-namespace XMessenger.Database.Db.Context
+﻿namespace XMessenger.Database.Db.Context
 {
     public class DatabaseContext : DbContext
     {

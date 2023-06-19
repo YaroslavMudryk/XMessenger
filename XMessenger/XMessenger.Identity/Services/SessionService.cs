@@ -1,13 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Identity.Models;
-using XMessenger.Helpers;
-using XMessenger.Helpers.Services;
-using XMessenger.Identity.Db.Context;
-using XMessenger.Identity.Extensions;
-using XMessenger.Identity.Sessions;
-using XMessenger.Identity.ViewModels;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public class SessionService : ISessionService
     {

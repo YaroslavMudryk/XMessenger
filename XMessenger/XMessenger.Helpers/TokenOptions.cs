@@ -1,7 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
-namespace XMessenger.Helpers
+﻿namespace XMessenger.Helpers
 {
     public class TokenOptions
     {

@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using XMessenger.Database.Dtos;
-using XMessenger.Database.Import;
-using XMessenger.Database.Services.Interfaces;
-
-namespace XMessenger.Web.Controllers.V1
+﻿namespace XMessenger.Web.Controllers.V1
 {
     [ApiVersion("1.0")]
     public class DatabaseController : ApiBaseController

@@ -1,7 +1,4 @@
-﻿using XMessenger.Database.Dtos;
-using XMessenger.Database.ViewModels;
-
-namespace XMessenger.Database.Services.Interfaces
+﻿namespace XMessenger.Database.Services.Interfaces
 {
     public interface IAreaService
     {

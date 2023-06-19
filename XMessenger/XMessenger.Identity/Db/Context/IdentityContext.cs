@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Identity.Models;
-using XMessenger.Helpers.Db.Extensions;
-using XMessenger.Helpers.Services;
-using XMessenger.Identity.Db.Configurations;
-
-namespace XMessenger.Identity.Db.Context
+﻿namespace XMessenger.Identity.Db.Context
 {
     public class IdentityContext : DbContext
     {

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using XMessenger.Identity.Models;
-
-namespace XMessenger.Identity.Db.Configurations
+﻿namespace XMessenger.Identity.Db.Configurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {

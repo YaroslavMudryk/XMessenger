@@ -1,7 +1,4 @@
-﻿using XMessenger.Identity.Models;
-using XMessenger.Identity.ViewModels;
-
-namespace XMessenger.Identity.Extensions
+﻿namespace XMessenger.Identity.Extensions
 {
     public static class SessionExtensions
     {

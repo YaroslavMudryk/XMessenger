@@ -1,8 +1,4 @@
-﻿using XMessenger.Helpers;
-using XMessenger.Identity.Dtos;
-using XMessenger.Identity.ViewModels;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public interface IRoleService
     {

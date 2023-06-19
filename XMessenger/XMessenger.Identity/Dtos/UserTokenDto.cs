@@ -1,6 +1,4 @@
-﻿using XMessenger.Identity.Models;
-
-namespace XMessenger.Identity.Dtos
+﻿namespace XMessenger.Identity.Dtos
 {
     public class UserTokenDto
     {

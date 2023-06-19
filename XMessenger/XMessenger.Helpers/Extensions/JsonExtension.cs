@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-namespace XMessenger.Helpers.Extensions
+﻿namespace XMessenger.Helpers.Extensions
 {
     public static class JsonExtension
     {

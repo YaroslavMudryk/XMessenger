@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace XMessenger.Identity.Dtos
+﻿namespace XMessenger.Identity.Dtos
 {
     public class NewLoginDto
     {

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using XMessenger.Helpers.Extensions;
-
-namespace XMessenger.Database.Db.Configurations
+﻿namespace XMessenger.Database.Db.Configurations
 {
     public class SettlementConfiguration : IEntityTypeConfiguration<Settlement>
     {

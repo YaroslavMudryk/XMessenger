@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace XMessenger.Helpers.Extensions
+﻿namespace XMessenger.Helpers.Extensions
 {
     public static class StringExtensions
     {

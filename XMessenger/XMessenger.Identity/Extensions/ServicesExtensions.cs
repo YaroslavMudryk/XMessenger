@@ -1,14 +1,4 @@
-﻿using Extensions.DeviceDetector;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using XMessenger.Helpers.Services;
-using XMessenger.Identity.Db.Context;
-using XMessenger.Identity.Seeder;
-using XMessenger.Identity.Services;
-using XMessenger.Identity.Sessions;
-
-namespace XMessenger.Identity.Extensions
+﻿namespace XMessenger.Identity.Extensions
 {
     public static class ServicesExtensions
     {

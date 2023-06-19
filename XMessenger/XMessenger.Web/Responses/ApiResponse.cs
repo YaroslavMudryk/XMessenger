@@ -1,6 +1,4 @@
-﻿using XMessenger.Helpers;
-
-namespace XMessenger.Web.Responses
+﻿namespace XMessenger.Web.Responses
 {
     public class APIResponse
     {

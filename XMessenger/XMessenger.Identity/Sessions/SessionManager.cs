@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using XMessenger.Identity.Db.Context;
-
-namespace XMessenger.Identity.Sessions
+﻿namespace XMessenger.Identity.Sessions
 {
     public class SessionManager : ISessionManager
     {

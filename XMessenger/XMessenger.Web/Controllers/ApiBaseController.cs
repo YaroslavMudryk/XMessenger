@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using XMessenger.Helpers;
-using XMessenger.Identity.Dtos;
-using XMessenger.Web.Responses;
-
-namespace XMessenger.Web.Controllers
+﻿namespace XMessenger.Web.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]

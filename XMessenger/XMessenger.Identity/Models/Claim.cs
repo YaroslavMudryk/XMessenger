@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace XMessenger.Identity.Models
+﻿namespace XMessenger.Identity.Models
 {
     public class Claim : BaseModel<int>
     {

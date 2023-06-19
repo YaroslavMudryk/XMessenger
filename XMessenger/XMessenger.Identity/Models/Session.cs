@@ -1,7 +1,4 @@
-﻿using Extensions.DeviceDetector.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace XMessenger.Identity.Models
+﻿namespace XMessenger.Identity.Models
 {
     public class Session : BaseSoftDeletableModel<Guid>
     {

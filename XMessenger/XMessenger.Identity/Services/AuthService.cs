@@ -1,18 +1,4 @@
-﻿using Extensions.DeviceDetector;
-using Extensions.Password;
-using Google.Authenticator;
-using Microsoft.EntityFrameworkCore;
-using XMessenger.Identity.Models;
-using XMessenger.Helpers;
-using XMessenger.Helpers.Extensions;
-using XMessenger.Helpers.Identity;
-using XMessenger.Helpers.Services;
-using XMessenger.Identity.Db.Context;
-using XMessenger.Identity.Dtos;
-using XMessenger.Identity.Extensions;
-using XMessenger.Identity.Sessions;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public class AuthService : IAuthService
     {

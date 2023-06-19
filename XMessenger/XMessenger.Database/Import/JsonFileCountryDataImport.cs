@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using XMessenger.Database.Db.Context;
-
-namespace XMessenger.Database.Import
+﻿namespace XMessenger.Database.Import
 {
     public class JsonFileCountryDataImport : ICountryData
     {

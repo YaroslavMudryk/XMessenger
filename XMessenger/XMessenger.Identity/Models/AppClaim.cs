@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace XMessenger.Identity.Models;
+﻿namespace XMessenger.Identity.Models;
 
 public class AppClaim : BaseModel<int>
 {

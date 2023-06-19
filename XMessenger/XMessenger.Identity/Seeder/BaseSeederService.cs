@@ -1,10 +1,4 @@
-﻿using XMessenger.Database.Db.Context;
-using XMessenger.Database.Models;
-using XMessenger.Helpers.Identity;
-using XMessenger.Identity.Db.Context;
-using XMessenger.Identity.Models;
-
-namespace XMessenger.Identity.Seeder
+﻿namespace XMessenger.Identity.Seeder
 {
     public class BaseSeederService : ISeederService
     {

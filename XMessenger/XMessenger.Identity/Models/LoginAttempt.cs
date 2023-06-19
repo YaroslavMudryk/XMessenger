@@ -1,6 +1,4 @@
-﻿using Extensions.DeviceDetector.Models;
-
-namespace XMessenger.Identity.Models;
+﻿namespace XMessenger.Identity.Models;
 
 public class LoginAttempt : BaseSoftDeletableModel<int>
 {

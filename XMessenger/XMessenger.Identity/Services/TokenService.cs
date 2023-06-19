@@ -1,14 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using XMessenger.Identity.Models;
-using XMessenger.Helpers;
-using XMessenger.Helpers.Identity;
-using XMessenger.Identity.Db.Context;
-using XMessenger.Identity.Dtos;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public class TokenService : ITokenService
     {

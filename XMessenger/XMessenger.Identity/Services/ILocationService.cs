@@ -1,6 +1,4 @@
-﻿using XMessenger.Identity.Models;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public interface ILocationService
     {

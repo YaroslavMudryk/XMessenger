@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using XMessenger.Identity.Sessions;
-using XMessenger.Web.Extensions;
-using XMessenger.Web.Responses;
-
-namespace XMessenger.Web.Middlewares
+﻿namespace XMessenger.Web.Middlewares
 {
     public class SessionMiddleware
     {

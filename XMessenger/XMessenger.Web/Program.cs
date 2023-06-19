@@ -1,13 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using XMessenger.Helpers;
-using XMessenger.Identity.Extensions;
-using XMessenger.Database.Extensions;
-using XMessenger.Web.Middlewares;
-
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services

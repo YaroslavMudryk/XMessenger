@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using XMessenger.Identity.Seeder;
-
-namespace XMessenger.Web.Controllers.V1
+﻿namespace XMessenger.Web.Controllers.V1
 {
     [ApiVersion("1.0")]
     public class NewController : ApiBaseController

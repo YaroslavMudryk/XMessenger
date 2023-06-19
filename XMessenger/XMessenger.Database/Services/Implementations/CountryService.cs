@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Database.Db.Context;
-using XMessenger.Database.Dtos;
-using XMessenger.Database.Services.Interfaces;
-using XMessenger.Database.ViewModels;
-
-namespace XMessenger.Database.Services.Implementations
+﻿namespace XMessenger.Database.Services.Implementations
 {
     public class CountryService : ICountryService
     {

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using XMessenger.Helpers.Extensions;
-using XMessenger.Helpers.Services;
-
-namespace XMessenger.Helpers.Db.Extensions
+﻿namespace XMessenger.Helpers.Db.Extensions
 {
     public static class DbContextExtensions
     {

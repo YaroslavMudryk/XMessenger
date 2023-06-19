@@ -1,6 +1,4 @@
-﻿using System.Net;
-using XMessenger.Web.Responses;
-namespace XMessenger.Web.Middlewares
+﻿namespace XMessenger.Web.Middlewares
 {
     public class GlobalErrorHandlerMiddleware
     {

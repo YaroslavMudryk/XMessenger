@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using XMessenger.Helpers.Db;
-
-namespace XMessenger.Helpers
+﻿namespace XMessenger.Helpers
 {
     public class BaseModel : IAuditEntity
     {

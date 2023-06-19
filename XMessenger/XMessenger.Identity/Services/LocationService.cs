@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
-using XMessenger.Identity.Models;
-using XMessenger.Identity.Dtos;
-
-namespace XMessenger.Identity.Services
+﻿namespace XMessenger.Identity.Services
 {
     public class LocationService : ILocationService
     {

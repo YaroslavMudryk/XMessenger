@@ -1,6 +1,4 @@
-﻿using XMessenger.Database.ViewModels;
-
-namespace XMessenger.Database.Dtos
+﻿namespace XMessenger.Database.Dtos
 {
     public class SettlementDto
     {

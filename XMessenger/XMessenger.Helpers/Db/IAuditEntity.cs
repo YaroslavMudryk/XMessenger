@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace XMessenger.Helpers.Db
+﻿namespace XMessenger.Helpers.Db
 {
     public interface IAuditEntity
     {

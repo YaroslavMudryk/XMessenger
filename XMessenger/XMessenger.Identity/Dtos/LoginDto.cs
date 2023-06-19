@@ -1,8 +1,4 @@
-﻿using Extensions.DeviceDetector.Models;
-using System.ComponentModel.DataAnnotations;
-using XMessenger.Helpers;
-
-namespace XMessenger.Identity.Dtos
+﻿namespace XMessenger.Identity.Dtos
 {
     public class LoginDto
     {
