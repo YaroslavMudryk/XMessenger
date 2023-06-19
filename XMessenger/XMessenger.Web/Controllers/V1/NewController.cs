@@ -18,10 +18,11 @@
             {
                 var res = await seederService.SeedSystemAsync();
 
-                count++;
+                if (res.Data > 0)
+                    count++;
             }
 
-            return JsonResult(Result<string>.SuccessWithData($"Ініціалізовано {count} Баз даних"));
+            return JsonResult(Result<string>.SuccessWithData($"Initialized: {count} databases"));
         }
     }
 }

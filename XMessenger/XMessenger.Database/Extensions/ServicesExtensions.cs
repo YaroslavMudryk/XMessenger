@@ -1,4 +1,6 @@
-﻿namespace XMessenger.Database.Extensions
+﻿using XMessenger.Database.Export;
+
+namespace XMessenger.Database.Extensions
 {
     public static class ServicesExtensions
     {
@@ -20,6 +22,7 @@
             services.AddScoped<IMetroService, MetroService>();
 
             services.AddScoped<ISeederService, DatabaseSeederService>();
+            services.AddScoped<IExportDatabaseService, FileExportDatabaseService>();
         }
     }
 }

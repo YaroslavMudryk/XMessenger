@@ -7,6 +7,7 @@ global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using System.Net;
 global using XMessenger.Database.Dtos;
+global using XMessenger.Database.Export;
 global using XMessenger.Database.Extensions;
 global using XMessenger.Database.Services.Interfaces;
 global using XMessenger.Helpers;

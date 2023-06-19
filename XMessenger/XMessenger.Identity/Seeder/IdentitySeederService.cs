@@ -25,7 +25,7 @@
             if (counter > 0)
                 await _identityDb.SaveChangesAsync();
 
-            return Result<int>.Success();
+            return Result<int>.SuccessWithData(counter);
         }
 
         private IEnumerable<Role> GetDefaultsRoles()

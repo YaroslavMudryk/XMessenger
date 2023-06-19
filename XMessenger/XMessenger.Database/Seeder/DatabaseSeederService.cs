@@ -12,7 +12,7 @@
 
         public async Task<Result<int>> SeedSystemAsync()
         {
-            int count = 0;
+            int counter = 0;
             var json = await File.ReadAllTextAsync(_countryUAPath);
 
             var country = JsonSerializer.Deserialize<Country>(json);
@@ -24,10 +24,10 @@
             {
                 await _db.Countries.AddAsync(country);
                 await _db.SaveChangesAsync();
-                count++;
+                counter++;
             }
 
-            return Result<int>.Success();
+            return Result<int>.SuccessWithData(counter);
         }
 
         private void SortNames(Country country)

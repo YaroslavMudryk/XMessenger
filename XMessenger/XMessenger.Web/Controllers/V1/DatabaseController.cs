@@ -8,14 +8,23 @@
         private readonly ISettlementService _settlementService;
         private readonly IUniversityService _universityService;
         private readonly IMetroService _metroService;
-        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService)
+        private readonly IExportDatabaseService _exportDatabaseService;
+        public DatabaseController(ICountryService countryService, IRegionService regionService, ISettlementService settlementService, IUniversityService universityService, IMetroService metroService, IExportDatabaseService exportDatabaseService)
         {
             _countryService = countryService;
             _regionService = regionService;
             _settlementService = settlementService;
             _universityService = universityService;
             _metroService = metroService;
+            _exportDatabaseService = exportDatabaseService;
         }
+
+        [HttpGet("export-all")]
+        public async Task<IActionResult> ExportAllAsync()
+        {
+            return JsonResult(await _exportDatabaseService.ExportAllCountriesWithAllDataAsync());
+        }
+
 
         #region Read
 
