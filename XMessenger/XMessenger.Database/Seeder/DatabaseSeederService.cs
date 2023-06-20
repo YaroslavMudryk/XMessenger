@@ -7,7 +7,7 @@
         public DatabaseSeederService(DatabaseContext db)
         {
             _db = db;
-            _countryUAPath = "country-ua.json";
+            _countryUAPath = "export_countries_(18_23)_20.06.2023.json";
         }
 
         public async Task<Result<int>> SeedSystemAsync()
@@ -15,7 +15,8 @@
             int counter = 0;
             var json = await File.ReadAllTextAsync(_countryUAPath);
 
-            var country = JsonSerializer.Deserialize<Country>(json);
+            var countryModel = JsonSerializer.Deserialize<List<CountryModel>>(json);
+            var country = countryModel[0].MapFromModel();
 
             SortNames(country);
             SetUniversitiesAndMetro(country);
@@ -45,13 +46,13 @@
 
         private void SetUniversitiesAndMetro(Country country)
         {
-            var regionName = "Київська область";
-            var areaName = "Київська міська рада";
-            var cityName = "Київ";
+            var regionId = "bd8abba813a54113a7889490ecfe4283";
+            var areaId = "f66a32fc1c034874b6d667be97caed74";
+            var cityId = "238f405b07f6418d93ed1e297cf3eedc";
 
-            var region = country.Regions.FirstOrDefault(s => s.Name == regionName);
-            var area = region.Areas.FirstOrDefault(s => s.Name == areaName);
-            var city = area.Settlements.FirstOrDefault(s => s.Name == cityName);
+            var region = country.Regions.FirstOrDefault(s => s.ItemId == regionId);
+            var area = region.Areas.FirstOrDefault(s => s.ItemId == areaId);
+            var city = area.Settlements.FirstOrDefault(s => s.ItemId == cityId);
 
             if (city != null)
             {
@@ -66,7 +67,7 @@
                         {
                             new MetroLine
                             {
-                                Name = "Оболоно-Теримківська",
+                                Name = "Оболонсько-Теремківська",
                                 Color = "Blue",
                                 Stations = new List<MetroStation>
                                 {
@@ -116,12 +117,14 @@
                                     {
                                         Code = "217",
                                         IsTransfer = true,
+                                        TransferToCode = "120",
                                         Name = "Майдан Незалежності"
                                     },
                                     new MetroStation
                                     {
                                         Code = "218",
                                         IsTransfer = true,
+                                        TransferToCode = "315",
                                         Name = "Площа Льва Толстого"
                                     },
                                     new MetroStation
@@ -182,7 +185,7 @@
                             },
                             new MetroLine
                             {
-                                Name = "Шевченківська",
+                                Name = "Святошинсько-Броварська",
                                 Color = "Red",
                                 Stations = new List<MetroStation>
                                 {
@@ -244,12 +247,14 @@
                                     {
                                         Name = "Театральна",
                                         IsTransfer = true,
+                                        TransferToCode = "314",
                                         Code = "119"
                                     },
                                     new MetroStation
                                     {
                                         Name = "Хрещатик",
                                         IsTransfer = true,
+                                        TransferToCode = "217",
                                         Code = "120"
                                     },
                                     new MetroStation
@@ -298,7 +303,7 @@
                             },
                             new MetroLine
                             {
-                                Name = "Сирецько-Вигурівська",
+                                Name = "Сирецько-Печерська",
                                 Color = "Green",
                                 Stations = new List<MetroStation>
                                 {
@@ -322,14 +327,22 @@
                                     },
                                     new MetroStation
                                     {
+                                        Name = "Львівська брама",
+                                        IsTransfer = false,
+                                        Code = "313"
+                                    },
+                                    new MetroStation
+                                    {
                                         Name = "Золоті ворота",
                                         IsTransfer = true,
+                                        TransferToCode = "119",
                                         Code = "314"
                                     },
                                     new MetroStation
                                     {
                                         Name = "Палац спорту",
                                         IsTransfer = true,
+                                        TransferToCode = "218",
                                         Code = "315"
                                     },
                                     new MetroStation
@@ -355,6 +368,12 @@
                                         Name = "Видубичі",
                                         IsTransfer = false,
                                         Code = "319"
+                                    },
+                                    new MetroStation
+                                    {
+                                        Name = "Теличка",
+                                        IsTransfer = false,
+                                        Code = "320"
                                     },
                                     new MetroStation
                                     {

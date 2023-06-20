@@ -2,6 +2,6 @@
 {
     public class DatabaseModel<T> : BaseModel<T>
     {
-        public string ItemId { get; set; } = Guid.NewGuid().ToString("N");
+        public string ItemId { get; set; }
     }
 }

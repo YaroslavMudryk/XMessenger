@@ -122,7 +122,6 @@
                 .Include(s => s.Area).ThenInclude(s => s.Region)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
-
             return Result<SettlementViewModel>.SuccessWithData(new SettlementViewModel
             {
                 Id = settlement.Id,

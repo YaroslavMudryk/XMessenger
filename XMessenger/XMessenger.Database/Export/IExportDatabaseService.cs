@@ -24,7 +24,7 @@
             var allUniversities = await _db.Universities.Include(s => s.Faculties).ThenInclude(s => s.Specialties).ToListAsync();
             var allMetro = await _db.Metro.Include(s => s.Lines).ThenInclude(s => s.Stations).ToListAsync();
 
-            var fileName = $"export_countries_{DateTime.Now.ToString("HH:mm_dd.MM.yyyy")}.json";
+            var fileName = $"export_countries_{DateTime.Now.ToString("(HH_mm)_dd.MM.yyyy")}.json";
 
             var finalCountries = countries.MapListToModel();
 
@@ -34,10 +34,11 @@
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             });
 
-            var sw = new StreamWriter(fileName);
-
-            await sw.WriteAsync(json);
-            sw.Close();
+            using (var sw = new StreamWriter(fileName))
+            {
+                await sw.WriteAsync(json);
+                sw.Close();
+            }
 
             return Result<List<CountryModel>>.Success();
         }
