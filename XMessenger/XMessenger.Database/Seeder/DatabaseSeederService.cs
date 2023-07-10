@@ -7,7 +7,7 @@
         public DatabaseSeederService(DatabaseContext db)
         {
             _db = db;
-            _countryUAPath = "export_countries_(18_23)_20.06.2023.json";
+            _countryUAPath = "export_countries_(15_46)_10.07.2023.json";
         }
 
         public async Task<Result<int>> SeedSystemAsync()
@@ -38,6 +38,10 @@
                 region.Areas.ForEach(area =>
                 {
                     area.Settlements = area.Settlements.OrderBy(s => s.Name).ToList();
+                    area.Settlements.ForEach(set =>
+                    {
+                        set.DisplayName = set.GetName();
+                    });
                 });
                 region.Areas = region.Areas.OrderBy(s => s.Name).ToList();
             });

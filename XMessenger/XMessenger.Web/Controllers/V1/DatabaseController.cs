@@ -25,6 +25,12 @@
             return JsonResult(await _exportDatabaseService.ExportAllCountriesWithAllDataAsync());
         }
 
+        [HttpGet("all/{itemId}")]
+        public async Task<IActionResult> GetObjectByItemId(string itemId)
+        {
+            return Ok(await _settlementService.FindObjectByItemIdAsync(itemId));
+        }
+
 
         #region Read
 

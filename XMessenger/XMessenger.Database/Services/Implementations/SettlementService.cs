@@ -24,6 +24,8 @@
                 AreaId = model.AreaId
             };
 
+            newSettlement.DisplayName = newSettlement.GetName();
+
             await _db.Settlements.AddAsync(newSettlement);
             await _db.SaveChangesAsync();
             return Result<SettlementViewModel>.SuccessWithData(new SettlementViewModel
@@ -49,6 +51,7 @@
                     settlementForEdit.OldNames = new List<string> { settlementForEdit.Name };
 
             settlementForEdit.Name = model.Name;
+            settlementForEdit.DisplayName = settlementForEdit.GetName();
             settlementForEdit.Flag = model.Flag;
             settlementForEdit.Type = model.Type;
             settlementForEdit.AreaId = model.AreaId;
@@ -77,7 +80,7 @@
             return Result<List<SettlementSearchViewModel>>.SuccessList(settlements.Select(s => new SettlementSearchViewModel
             {
                 Id = s.Id,
-                Name = s.GetName(),
+                Name = s.DisplayName,
                 Type = s.Type,
                 Area = s.Area.Name,
                 Region = s.Area.Region.Name,
@@ -154,6 +157,28 @@
             await _db.SaveChangesAsync();
 
             return Result<SettlementViewModel>.Success();
+        }
+
+        public async Task<Result<object>> FindObjectByItemIdAsync(string itemId)
+        {
+            var countryTask = await _db.Countries.AsNoTracking().FirstOrDefaultAsync(s => s.ItemId == itemId);
+            var regionTask = await _db.Regions.AsNoTracking().FirstOrDefaultAsync(s => s.ItemId == itemId);
+            var areaTask = await _db.Areas.AsNoTracking().FirstOrDefaultAsync(s => s.ItemId == itemId);
+            var settlementTask = await _db.Settlements.AsNoTracking().FirstOrDefaultAsync(s => s.ItemId == itemId);
+
+            if (countryTask != null)
+                return Result<object>.SuccessWithData(countryTask);
+
+            if (regionTask != null)
+                return Result<object>.SuccessWithData(regionTask);
+
+            if (areaTask != null)
+                return Result<object>.SuccessWithData(areaTask);
+
+            if (settlementTask != null)
+                return Result<object>.SuccessWithData(settlementTask);
+
+            return Result<object>.NotFound();
         }
     }
 }

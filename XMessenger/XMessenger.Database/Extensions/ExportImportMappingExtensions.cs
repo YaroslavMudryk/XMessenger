@@ -26,6 +26,7 @@
                         Settlements = a.Settlements != null ? a.Settlements.Select(s => new Settlement
                         {
                             Name = s.Name,
+                            DisplayName = s.DisplayName,
                             Flag = s.Flag,
                             ItemId = s.ItemId,
                             Type = s.Type,
@@ -110,6 +111,7 @@
                         Settlements = a.Settlements != null ? a.Settlements.Select(s => new SettlementModel
                         {
                             Name = s.Name,
+                            DisplayName = s.DisplayName,
                             Flag = s.Flag,
                             ItemId = s.ItemId,
                             Type = s.Type,

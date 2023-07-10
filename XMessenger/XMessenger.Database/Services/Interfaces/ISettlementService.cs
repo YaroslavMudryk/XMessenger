@@ -9,5 +9,6 @@
         Task<Result<SettlementViewModel>> CreateSettlementAsync(SettlementDto model);
         Task<Result<SettlementViewModel>> EditSettlementAsync(SettlementDto model);
         Task<Result<SettlementViewModel>> RemoveSettlementAsync(int settlementId);
+        Task<Result<object>> FindObjectByItemIdAsync(string itemId);
     }
 }
